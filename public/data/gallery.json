@@ -1,0 +1,58 @@
+{
+  "categories": [
+    {
+      "id": "diklat",
+      "name": "Diklat"
+    },
+    {
+      "id": "event",
+      "name": "Event"
+    },
+    {
+      "id": "sertifikasi",
+      "name": "Sertifikasi"
+    }
+  ],
+  "items": [
+    {
+      "src": "/gallery/gallery-01.svg",
+      "alt": "Pelatihan Dasar Satpam",
+      "category": "diklat"
+    },
+    {
+      "src": "/gallery/gallery-02.svg",
+      "alt": "Latihan Kedisiplinan",
+      "category": "diklat"
+    },
+    {
+      "src": "/gallery/gallery-03.svg",
+      "alt": "Gada Pratama Angkatan XII",
+      "category": "diklat"
+    },
+    {
+      "src": "/gallery/gallery-04.svg",
+      "alt": "Pengamanan Event Korporasi",
+      "category": "event"
+    },
+    {
+      "src": "/gallery/gallery-05.svg",
+      "alt": "Manajemen Kerumunan",
+      "category": "event"
+    },
+    {
+      "src": "/gallery/gallery-06.svg",
+      "alt": "Protokol VIP",
+      "category": "event"
+    },
+    {
+      "src": "/gallery/gallery-07.svg",
+      "alt": "Uji Kompetensi Sertifikasi",
+      "category": "sertifikasi"
+    },
+    {
+      "src": "/gallery/gallery-08.svg",
+      "alt": "Penyerahan Sertifikat",
+      "category": "sertifikasi"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" rx="24" fill="#111827"/>
+  <path d="M0 420h800" stroke="#1f2937" stroke-width="60"/>
+  <text x="50%" y="50%" fill="#D4AF37" font-size="28" text-anchor="middle">Placeholder 05</text>
+</svg>
