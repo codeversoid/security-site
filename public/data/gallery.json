@@ -9,50 +9,70 @@
       "name": "Event"
     },
     {
-      "id": "sertifikasi",
-      "name": "Sertifikasi"
+      "id": "semua",
+      "name": "Semua"
     }
   ],
   "items": [
     {
-      "src": "/gallery/gallery-01.svg",
-      "alt": "Pelatihan Dasar Satpam",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229018004-gadautama.jpg",
+      "alt": "diklat",
       "category": "diklat"
     },
     {
-      "src": "/gallery/gallery-02.svg",
-      "alt": "Latihan Kedisiplinan",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229038975-gadautama2.jpg",
+      "alt": "diklat",
       "category": "diklat"
     },
     {
-      "src": "/gallery/gallery-03.svg",
-      "alt": "Gada Pratama Angkatan XII",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229185398-gadautama1.jpg",
+      "alt": "diklat",
       "category": "diklat"
     },
     {
-      "src": "/gallery/gallery-04.svg",
-      "alt": "Pengamanan Event Korporasi",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229338635-WhatsApp-Image-2025-05-05-at-13.37.29_e8e59ec6-770x390.jpg",
+      "alt": "diklat",
+      "category": "diklat"
+    },
+    {
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230849997-page26_img03.png",
+      "alt": "diklat",
+      "category": "diklat"
+    },
+    {
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230891722-page29_img04.png",
+      "alt": "diklat",
+      "category": "diklat"
+    },
+    {
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230909378-page26_img05.png",
+      "alt": "diklat",
+      "category": "diklat"
+    },
+    {
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230801948-event4.png",
+      "alt": "event 4",
       "category": "event"
     },
     {
-      "src": "/gallery/gallery-05.svg",
-      "alt": "Manajemen Kerumunan",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230766504-event.png",
+      "alt": "event 1",
       "category": "event"
     },
     {
-      "src": "/gallery/gallery-06.svg",
-      "alt": "Protokol VIP",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230778567-event2.png",
+      "alt": "event 2",
       "category": "event"
     },
     {
-      "src": "/gallery/gallery-07.svg",
-      "alt": "Uji Kompetensi Sertifikasi",
-      "category": "sertifikasi"
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230788592-enent3.png",
+      "alt": "event 3",
+      "category": "event"
     },
     {
-      "src": "/gallery/gallery-08.svg",
-      "alt": "Penyerahan Sertifikat",
-      "category": "sertifikasi"
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764231019586-page29_img03.png",
+      "alt": "diklat",
+      "category": "diklat"
     }
   ]
 }

@@ -1,66 +1,165 @@
 {
-  "directorName": "Rudi",
-  "directorTitle": "Direktur",
-  "directorPhotoUrl": "/team/rudi.svg",
+  "directorName": "RAHMAT SALEH, SH",
+  "directorTitle": "DIREKTUR",
+  "directorPhotoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/director/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317028922-DIREKTUR.png",
   "directorMessage": "Terima kasih atas kepercayaan Anda. Kami berkomitmen menghadirkan layanan pengamanan yang profesional, responsif, dan terukur, serta pembinaan SDM untuk meningkatkan mutu layanan.",
   "aboutLogoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/logo/05afc4c4-246a-4b84-8996-6b4a00579d4d-1762843967922-20._LOGO_LEMOS_JAYA_PERKASA-removebg-preview.png",
   "team": [
-    { "name": "Rudi", "role": "Direktur", "imageUrl": "/team/rudi.svg" },
-    { "name": "Vera", "role": "Manajer", "imageUrl": "/team/vera.svg" },
-    { "name": "Embu", "role": "Pembina 1", "imageUrl": "/team/embu.svg" },
-    { "name": "Tek Sunu", "role": "Pembina 2", "imageUrl": "/team/teksunu.svg" },
-    { "name": "Ardi", "role": "Koordinator Operasional", "imageUrl": "/team/ardi.svg" },
-    { "name": "Sinta", "role": "HR & Pembinaan", "imageUrl": "/team/sinta.svg" }
+    {
+      "name": "WAHYU JATI PERKASA",
+      "role": "KOMISARIS",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317982893-KOMISASARIS.png"
+    },
+    {
+      "name": "RAHMAT SALEH, SH",
+      "role": "DIREKTUR",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317097089-DIREKTUR.png"
+    },
+    {
+      "name": "DWI FURY SYARA",
+      "role": "WAKIL DIREKTUR",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317764739-wkl.png"
+    },
+    {
+      "name": "M RIKSA IMAM PRIADI",
+      "role": "ADVISOR",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317758246-advisor.png"
+    },
+    {
+      "name": "RESA LESTARI",
+      "role": "MGR HRD",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317747824-hrd.png"
+    },
+    {
+      "name": "DEWI SITI MEGAWATI, SE",
+      "role": "KEUANGAN",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317741087-megawa.png"
+    },
+    {
+      "name": "WAHYU HIDAYAT",
+      "role": "MGR OPERASIONAL",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317729655-mgr_ops.png"
+    },
+    {
+      "name": "M BAIHAKI ABDUL AZIZ",
+      "role": "MARKETING",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317716616-eki.png"
+    },
+    {
+      "name": "J D SIMARMATA, SH",
+      "role": "LEGAL",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317707473-legal.png"
+    },
+    {
+      "name": "M,RIPAN RISWANDI",
+      "role": "TECHNICAL MANAGER",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317695839-tech_manager.png"
+    }
   ],
   "partners": [
-    { "name": "PT. KRIDA SUMBER ALAMI", "logoUrl": "" },
-    { "name": "PT. BUANA MAKMUR NUSANTARA", "logoUrl": "" },
-    { "name": "INDAH JAYA FARM CIPETIR", "logoUrl": "" },
-    { "name": "PT. SAUDARA MAKMUR INDONESIA", "logoUrl": "" },
-    { "name": "SUBUR JAYA ABADI FARM", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA BANDUNG", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA CIANJUR", "logoUrl": "" },
-    { "name": "PT. FASTRATA BUANA CIANJUR", "logoUrl": "" },
-    { "name": "PT. PETERNAKAN AYAM MANGGIS", "logoUrl": "" },
-    { "name": "PT. HENGSUN", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA JAKARTA", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA KUNINGAN", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA SURABAYA", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA LAMPUNG", "logoUrl": "" },
-    { "name": "KLINIK GLAFIDSYA MEDIKA PALEMBANG", "logoUrl": "" },
-    { "name": "PT. HYBRO INDONESIA", "logoUrl": "" },
-    { "name": "PT. DINAMIKA MEGATAMA CITRA", "logoUrl": "" },
-    { "name": "PT. ATARI", "logoUrl": "" },
-    { "name": "MULYA SARI FARM", "logoUrl": "" },
-    { "name": "PD. TERUS MAJU", "logoUrl": "" },
-    { "name": "APOTEK MANNA FARMA", "logoUrl": "" },
-    { "name": "PT. ANUGRAH ALAM NESTINDO", "logoUrl": "" },
-    { "name": "PT. CIANJUR ARTA MAKMUR", "logoUrl": "" },
-    { "name": "PT. BERKAH NIAGA ARSINDA", "logoUrl": "" },
-    { "name": "CITIMALL CIANJUR", "logoUrl": "" },
-    { "name": "PT. FASTRATA BUANA TANGGEUNG", "logoUrl": "" },
-    { "name": "CV. MURAH BANGUN GRIYA", "logoUrl": "" },
-    { "name": "PT. REZA PERKASA", "logoUrl": "" },
-    { "name": "SMKN 1 HAURWANGI", "logoUrl": "" },
-    { "name": "RUMAH SAKIT Dr. HAFIZ (RSDH) CIANJUR", "logoUrl": "" },
-    { "name": "PT. ABADAN ABADA", "logoUrl": "" },
-    { "name": "TB. SUMBER MURAH", "logoUrl": "" },
-    { "name": "SMA N 1 PACET", "logoUrl": "" },
-    { "name": "KLINIK KENCANA MEDIKA", "logoUrl": "" },
-    { "name": "SMA N 1 CIRANJANG", "logoUrl": "" },
-    { "name": "POLRES CIANJUR", "logoUrl": "" },
-    { "name": "KLINIK AR-RAHMAN", "logoUrl": "" },
-    { "name": "MURAH MAJU", "logoUrl": "" },
-    { "name": "CV. KURNIA", "logoUrl": "" },
-    { "name": "PT. LIANHUA LEATHER INDUSTRY", "logoUrl": "" },
-    { "name": "SMK 1 PASUNDAN CIANJUR", "logoUrl": "" },
-    { "name": "KLINIK PRATAMA ASRI", "logoUrl": "" },
-    { "name": "PT. PANJUNAN", "logoUrl": "" },
-    { "name": "PT. KRIDA PERMAI", "logoUrl": "" },
-    { "name": "KLINIK PRATAMA AL - ZAIN", "logoUrl": "" },
-    { "name": "SINAR MUSTIKA INDAH", "logoUrl": "" },
-    { "name": "APOTEK SUNDA HURIP", "logoUrl": "" },
-    { "name": "STIE RSDH", "logoUrl": "" },
-    { "name": "PT. PRIMA PUTERA KARYA", "logoUrl": "" }
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764310929395-1.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764310933461-2.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764310943412-3.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764310953225-4.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764310959198-5.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311007549-6.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311015141-7.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311023677-8.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311043564-9.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311047973-10.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311052351-11.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311056163-12.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311062335-13.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311066419-14.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311072170-15.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311079213-16.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311084953-17.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311090139-18.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311095411-19.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311100820-20.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311106409-21.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311111336-22.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311115856-23.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311120656-24.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311125731-25.png"
+    },
+    {
+      "name": "",
+      "logoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/partners/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764311129993-26.png"
+    }
   ]
 }
