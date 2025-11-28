@@ -53,75 +53,75 @@ export default function ContactForm() {
         viewport={{ once: true, margin: "-80px" }}
         variants={{}}
         onSubmit={handleSubmit(onSubmit)}
-        className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 md:p-8 shadow-lg shadow-black/20 ring-1 ring-zinc-800"
+        className="rounded-2xl border bg-card/40 p-6 md:p-8 shadow-lg"
       >
-        <motion.h3 variants={fadeUp} className="text-xl md:text-2xl font-semibold text-white">
+        <motion.h3 variants={fadeUp} className="text-xl md:text-2xl font-semibold text-foreground">
           Kirimkan Ulasan Anda
         </motion.h3>
-        <motion.p variants={fadeUp} className="mt-2 text-sm md:text-base text-zinc-300">
+        <motion.p variants={fadeUp} className="mt-2 text-sm md:text-base text-foreground">
           Silakan menyampaikan kesan dan pesan Anda di kolom di bawah ini.
         </motion.p>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
           <motion.div variants={fadeUp}>
-            <label className="text-xs uppercase tracking-wider text-zinc-400">Nama</label>
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">Nama</label>
             <input
               {...register("name")}
               placeholder="Nama lengkap"
-              className="mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              className="mt-2 w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
             />
             {errors.name && (
-              <p className="mt-1 text-xs text-amber-400">{errors.name.message}</p>
+              <p className="mt-1 text-xs text-rose-400">{errors.name.message}</p>
             )}
           </motion.div>
 
           <motion.div variants={fadeUp}>
-            <label className="text-xs uppercase tracking-wider text-zinc-400">Email</label>
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">Email</label>
             <input
               type="email"
               {...register("email")}
               placeholder="alamat@email.com"
-              className="mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              className="mt-2 w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
             />
             {errors.email && (
-              <p className="mt-1 text-xs text-amber-400">{errors.email.message}</p>
+              <p className="mt-1 text-xs text-rose-400">{errors.email.message}</p>
             )}
           </motion.div>
 
           <motion.div variants={fadeUp}>
-            <label className="text-xs uppercase tracking-wider text-zinc-400">No. Telp</label>
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">No. Telp</label>
             <input
               {...register("phone")}
               placeholder="Contoh: +62 812xxxx"
-              className="mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              className="mt-2 w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
             />
             {errors.phone && (
-              <p className="mt-1 text-xs text-amber-400">{errors.phone.message}</p>
+              <p className="mt-1 text-xs text-rose-400">{errors.phone.message}</p>
             )}
           </motion.div>
 
           <motion.div variants={fadeUp}>
-            <label className="text-xs uppercase tracking-wider text-zinc-400">Subjek</label>
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">Subjek</label>
             <input
               {...register("subject")}
               placeholder="Judul pesan"
-              className="mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              className="mt-2 w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
             />
             {errors.subject && (
-              <p className="mt-1 text-xs text-amber-400">{errors.subject.message}</p>
+              <p className="mt-1 text-xs text-rose-400">{errors.subject.message}</p>
             )}
           </motion.div>
 
           <motion.div variants={fadeUp} className="md:col-span-2">
-            <label className="text-xs uppercase tracking-wider text-zinc-400">Pesan</label>
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">Pesan</label>
             <textarea
               {...register("message")}
               rows={5}
               placeholder="Tuliskan kebutuhan atau pertanyaan Anda..."
-              className="mt-2 w-full rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+              className="mt-2 w-full rounded-xl border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
             />
             {errors.message && (
-              <p className="mt-1 text-xs text-amber-400">{errors.message.message}</p>
+              <p className="mt-1 text-xs text-rose-400">{errors.message.message}</p>
             )}
           </motion.div>
         </div>
@@ -130,7 +130,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center gap-2 rounded-xl border border-amber-500/40 bg-gradient-to-b from-amber-500/20 to-amber-600/10 px-4 py-3 text-amber-300 transition-all hover:border-amber-400 hover:from-amber-500/30 hover:to-amber-600/20 focus:outline-none focus:ring-2 focus:ring-amber-500/40 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-xl border border-accent/40 bg-gradient-to-b from-accent/20 to-accent/10 px-4 py-3 text-accent transition-all hover:border-accent/60 hover:from-accent/30 hover:to-accent/20 focus:outline-none focus:ring-2 focus:ring-accent/40 disabled:opacity-60"
           >
             {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
           </button>

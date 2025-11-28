@@ -16,7 +16,7 @@ export default function HelpForm() {
       <div className="rounded-2xl border border-zinc-800 bg-card/40 p-6 md:p-8">
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <div>
-            <p className="text-sm font-medium tracking-wide text-amber-300">Butuh Bantuan?</p>
+            <p className="text-sm font-medium tracking-wide text-accent">Butuh Bantuan?</p>
             <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Konsultasi & Informasi Layanan</h2>
           </div>
         </div>
@@ -51,7 +51,7 @@ export default function HelpForm() {
                 <input
                   type="text"
                   required
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12 md:col-span-6">
@@ -59,21 +59,21 @@ export default function HelpForm() {
                 <input
                   type="email"
                   required
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12 md:col-span-6">
                 <label className="block text-xs font-medium text-muted-foreground">Alamat / Lokasi</label>
                 <input
                   type="text"
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12 md:col-span-6">
                 <label className="block text-xs font-medium text-muted-foreground">Pekerjaan</label>
                 <input
                   type="text"
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12">
@@ -81,20 +81,20 @@ export default function HelpForm() {
                 <input
                   type="text"
                   required
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12">
                 <label className="block text-xs font-medium text-muted-foreground">Pesan</label>
                 <textarea
                   rows={4}
-                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-[#D4AF37]"
+                  className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
               <div className="col-span-12 flex items-center justify-between gap-3">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-2 rounded-xl border border-amber-500/40 bg-gradient-to-b from-amber-500/20 to-amber-600/10 px-4 py-2 text-sm text-amber-300 transition hover:border-amber-400 hover:from-amber-500/30 hover:to-amber-600/20"
+                  className="inline-flex items-center gap-2 rounded-xl border border-accent/40 bg-gradient-to-b from-accent/20 to-accent/10 px-4 py-2 text-sm text-accent transition hover:border-accent/60 hover:from-accent/30 hover:to-accent/20"
                 >
                   Kirim Pertanyaan
                   <span aria-hidden>→</span>
@@ -104,7 +104,7 @@ export default function HelpForm() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="text-xs text-amber-300"
+                    className="text-xs text-accent"
                   >
                     Pertanyaan Anda telah terkirim.
                   </motion.span>

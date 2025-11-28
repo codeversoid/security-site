@@ -50,12 +50,17 @@ export default function Header() {
   return (
     <header
       className={
-        `sticky top-0 z-50 transition-colors ` +
-        (scrolled ? "bg-[#0E1A2A] shadow-md" : "bg-transparent")
+        `sticky top-0 z-50 transition-colors ${
+          scrolled ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent"
+        }`
       }
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 md:px-8 xl:px-12">
-        <Link href="/" prefetch className="inline-flex items-center gap-2 font-semibold tracking-tight">
+        <Link
+          href="/"
+          prefetch
+          className={`inline-flex items-center gap-2 font-semibold tracking-tight ${scrolled ? "text-foreground" : "text-black"}`}
+        >
           {site?.logoUrl ? (
             <Image src={site.logoUrl} alt={site.siteName ?? "Logo"} width={28} height={28} className="rounded-sm" />
           ) : (
@@ -69,7 +74,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               prefetch
-              className="text-sm text-foreground/90 hover:text-accent hover:underline underline-offset-4 decoration-accent"
+              className={`text-sm ${scrolled ? "text-foreground/90" : "text-black"} hover:text-accent hover:underline underline-offset-4 decoration-accent`}
             >
               {item.label}
             </Link>

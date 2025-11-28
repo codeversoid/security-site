@@ -1,6 +1,5 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Link from "next/link";
 
 type Program = {
   key: "pratama" | "madya" | "utama";
@@ -91,8 +90,6 @@ export default function TrainingTabs() {
                     <li key={r}>{r}</li>
                   ))}
                 </ul>
-                <h3 className="font-semibold">Biaya</h3>
-                <p className="text-sm text-muted-foreground">{p.fee}</p>
                 <div className="flex gap-3 pt-2">
                   <a
                     className="inline-flex items-center rounded-full bg-primary px-4 py-2 text-white text-sm"
@@ -104,12 +101,6 @@ export default function TrainingTabs() {
                   >
                     Daftar via WhatsApp
                   </a>
-                  <Link
-                    className="inline-flex items-center rounded-full border px-4 py-2 text-sm"
-                    href="/download/compro"
-                  >
-                    Unduh Brosur (PDF dummy)
-                  </Link>
                 </div>
               </div>
             </div>

@@ -24,7 +24,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12">
         <div className="p-6 md:p-8">
           <div className="text-center max-w-2xl mx-auto">
-            <p className="text-sm font-medium tracking-wide text-amber-300">Mengapa Memilih Kami</p>
+            <p className="text-sm font-medium tracking-wide text-accent">Mengapa Memilih Kami</p>
             <h2 className="mt-1 text-lg md:text-xl font-semibold tracking-tight">Legalitas Lengkap & Kredibilitas Teruji</h2>
             <p className="mt-2 text-sm text-muted-foreground">Ringkasan pengakuan dan perizinan utama yang membuktikan kualitas layanan kami.</p>
           </div>
@@ -33,28 +33,28 @@ export default function HomePage() {
             <div className="col-span-12 md:col-span-5">
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Akta Pendirian & SK Kemenkumham</h3>
                     <p className="text-sm text-muted-foreground">Dokumen legal perusahaan lengkap dan valid.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Pengesahan Peraturan Perusahaan</h3>
                     <p className="text-sm text-muted-foreground">Kepatuhan terhadap standar kerja dan keselamatan.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Terdaftar di Asosiasi Jasa Keamanan</h3>
                     <p className="text-sm text-muted-foreground">Keanggotaan resmi sebagai penyedia jasa pengamanan.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Disnaker</h3>
                     <p className="text-sm text-muted-foreground">Terdaftar dan diawasi instansi ketenagakerjaan.</p>
@@ -65,7 +65,7 @@ export default function HomePage() {
             {/* Gambar tengah */}
             <div className="col-span-12 md:col-span-2 flex justify-center">
               <div className="relative">
-                <div className="absolute inset-0 rounded-xl ring-1 ring-transparent md:group-hover:ring-[#D4AF37]/70" />
+                <div className="absolute inset-0 rounded-xl ring-1 ring-transparent md:group-hover:ring-accent/70" />
                 <Image src="/team/rudi.svg" alt="Figur Satpam" width={140} height={140} className="h-40 w-auto md:h-56" />
               </div>
             </div>
@@ -73,28 +73,28 @@ export default function HomePage() {
             <div className="col-span-12 md:col-span-5">
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Izin Operasional Mabes Polri</h3>
                     <p className="text-sm text-muted-foreground">Rekomendasi dan izin resmi untuk operasional pengamanan.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Surat Keterangan Domisili</h3>
                     <p className="text-sm text-muted-foreground">Identitas alamat operasional yang terdokumentasi.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Tanda Daftar Perusahaan (TDP/NIB)</h3>
                     <p className="text-sm text-muted-foreground">Terdaftar secara resmi sebagai badan usaha.</p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-[#D4AF37]" />
+                  <span className="mt-1 inline-flex h-3 w-3 rounded-full ring-2 ring-accent" />
                   <div>
                     <h3 className="font-medium">Sertifikasi ISO / ICS</h3>
                     <p className="text-sm text-muted-foreground">Sistem manajemen mutu dan keselamatan kerja terstandarisasi.</p>
@@ -108,7 +108,7 @@ export default function HomePage() {
       <TrainingRibbon />
       {/* Galeri: heading yang lebih jelas */}
       <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-12 lg:py-20">
-        <p className="text-sm font-medium tracking-wide text-amber-300">Lihat Pengalaman Kami</p>
+        <p className="text-sm font-medium tracking-wide text-accent">Lihat Pengalaman Kami</p>
         <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Galeri Foto</h2>
       </section>
       <GalleryGrid />

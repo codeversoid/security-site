@@ -56,7 +56,7 @@ export default function NewsSidebar() {
               <Link
                 prefetch
                 href={`/news/${p.slug || p.id}`}
-                className="block rounded-md border border-transparent px-3 py-2 text-sm hover:text-[#D4AF37] transition-colors"
+                className="block rounded-md border border-transparent px-3 py-2 text-sm hover:text-accent transition-colors"
               >
                 <span className="inline-block align-middle">{p.title}</span>
                 <span className="float-right text-muted-foreground">→</span>
@@ -74,7 +74,7 @@ export default function NewsSidebar() {
         <a
           href={comproHref}
           download
-          className="mt-4 inline-flex items-center justify-center rounded-lg border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-4 py-2 text-sm font-medium text-[#D4AF37] hover:bg-[#D4AF37]/20 transition"
+          className="mt-4 inline-flex items-center justify-center rounded-lg border border-accent/50 bg-accent/10 px-4 py-2 text-sm font-medium text-accent hover:bg-accent/20 transition"
         >
           Download COMPRO
         </a>

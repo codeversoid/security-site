@@ -36,7 +36,7 @@ export default function LightboxModal({ open, images, index, onClose, onPrev, on
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
           onClick={onClose}
         >
           <div className="absolute inset-0 grid place-items-center p-4" onClick={(e) => e.stopPropagation()}>
@@ -49,16 +49,16 @@ export default function LightboxModal({ open, images, index, onClose, onPrev, on
                 className="w-full h-auto rounded-xl border"
                 priority
               />
-              <div className="absolute inset-x-0 -bottom-14 flex items-center justify-between text-white">
+              <div className="absolute inset-x-0 -bottom-14 flex items-center justify-between text-foreground">
                 <button
                   onClick={onPrev}
-                  className="rounded-full border border-white/30 bg-white/10 px-4 py-2 hover:bg-white/20"
+                  className="rounded-full border border-foreground/30 bg-foreground/10 px-4 py-2 hover:bg-foreground/20"
                 >
                   ← Prev
                 </button>
                 <button
                   onClick={onNext}
-                  className="rounded-full border border-white/30 bg-white/10 px-4 py-2 hover:bg-white/20"
+                  className="rounded-full border border-foreground/30 bg-foreground/10 px-4 py-2 hover:bg-foreground/20"
                 >
                   Next →
                 </button>

@@ -85,7 +85,7 @@ export default function PartnersMarquee() {
       {p.logoUrl ? (
         <Image src={p.logoUrl} alt={p.name || "Logo mitra"} width={140} height={56} />
       ) : (
-        <div className="px-4 py-2 rounded-full border border-zinc-800 bg-card/40 text-sm font-medium transition hover:border-[#D4AF37] hover:text-[#D4AF37] hover:shadow-md">
+        <div className="px-4 py-2 rounded-full border border-zinc-800 bg-card/40 text-sm font-medium transition hover:border-accent hover:text-accent hover:shadow-md">
           {p.name}
         </div>
       )}
@@ -135,7 +135,7 @@ export default function PartnersMarquee() {
 
   return (
     <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-10 lg:py-16">
-      <p className="text-sm font-medium tracking-wide text-amber-300">Support</p>
+      <p className="text-sm font-medium tracking-wide text-accent">Support</p>
       <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Rekan & Mitra</h2>
       <div className="mt-6 space-y-6">
         <Row items={displayLanes[0] || []} />

@@ -16,15 +16,18 @@ export default function Timeline() {
         {steps.map((s, i) => (
           <motion.div
             key={s.year}
-            className="col-span-12 md:col-span-3"
+            className="col-span-12 md:col-span-3 h-full"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.08 }}
           >
-            <div className="rounded-xl border bg-card/40 p-5">
-              <div className="text-accent font-semibold">{s.year}</div>
-              <p className="mt-2 text-sm text-muted-foreground">{s.text}</p>
+            <div
+              aria-label={`Tonggak ${s.year}`}
+              className="relative h-full min-h-[120px] md:min-h-[140px] rounded-xl border border-accent/40 bg-gradient-to-b from-accent/15 to-accent/5 p-6 flex items-center justify-center transition hover:border-accent/60 hover:shadow-lg hover:-translate-y-[1px]"
+            >
+              <div className="absolute inset-0 rounded-xl ring-1 ring-transparent hover:ring-accent/40" />
+              <div className="text-3xl md:text-4xl font-bold text-accent text-center">{s.year}</div>
             </div>
           </motion.div>
         ))}

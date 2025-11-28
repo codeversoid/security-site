@@ -23,9 +23,9 @@ export default function Certifications() {
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.08 }}
           >
-            <div className="group rounded-xl border bg-card/40 p-5 hover:shadow-lg transition">
+            <div className="group rounded-xl border bg-card/40 p-5 min-h-[160px] hover:border-accent/70 hover:shadow-lg transition">
               <div className="h-12 w-12 rounded-lg ring-1 ring-border bg-card/60 overflow-hidden">
-                <Image src={c.icon} alt={c.name} width={48} height={48} />
+                <Image src={c.icon} alt={c.name} width={48} height={48} style={{ filter: "invert(32%) sepia(78%) saturate(548%) hue-rotate(185deg) brightness(95%) contrast(92%)" }} />
               </div>
               <h3 className="mt-3 font-semibold">{c.name}</h3>
               <p className="text-sm text-muted-foreground">Dokumen & standar teknis tersedia sesuai kebutuhan.</p>

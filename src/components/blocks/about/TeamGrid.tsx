@@ -12,7 +12,7 @@ export default function TeamGrid() {
       try {
         const res = await fetch("/api/about", { cache: "no-store" });
         const json = await res.json();
-        const arr: any[] = Array.isArray(json?.data?.team) ? json.data.team : [];
+        const arr: Member[] = Array.isArray(json?.data?.team) ? (json.data.team as Member[]) : [];
         setTeam(arr);
       } catch {}
     })();
@@ -40,7 +40,6 @@ export default function TeamGrid() {
               <h3 className="mt-4 font-semibold tracking-tight">{m.name}</h3>
               <p className="text-sm text-muted-foreground">{m.role}</p>
               <div className="mt-3 h-px w-full bg-border" />
-              <p className="mt-3 text-xs text-muted-foreground">Detail peran dan tugas akan ditambahkan.</p>
             </div>
           </motion.div>
         ))}

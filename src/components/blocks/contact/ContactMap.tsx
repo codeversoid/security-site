@@ -15,15 +15,15 @@ export default function ContactMap() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="rounded-2xl border border-zinc-800 ring-1 ring-zinc-800 bg-zinc-900/40 overflow-hidden shadow-lg shadow-black/20"
+        className="rounded-2xl border bg-card/40 overflow-hidden shadow-lg"
       >
         <div className="flex items-center justify-between p-4 md:p-5">
-          <h3 className="text-lg md:text-xl font-semibold text-white tracking-tight">Lokasi Kantor</h3>
+          <h3 className="text-lg md:text-xl font-semibold tracking-tight">Lokasi Kantor</h3>
           <a
             href="https://maps.google.com/?q=GADA%2086%20Comando"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs md:text-sm text-amber-300 hover:text-amber-200 transition"
+            className="text-xs md:text-sm text-accent hover:text-accent/80 transition"
           >
             Buka di Google Maps
           </a>
@@ -43,7 +43,7 @@ export default function ContactMap() {
           />
 
           {/* Top gradient to add depth */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/30 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/60 to-transparent" />
 
           {/* Overlay CTA to enable interaction */}
           {!interactive && (
@@ -52,7 +52,7 @@ export default function ContactMap() {
                 type="button"
                 onClick={() => setInteractive(true)}
                 aria-label="Aktifkan interaksi peta"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#D4AF37] text-black px-4 py-2 font-medium shadow-sm hover:bg-[#C9A02E] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60"
+                className="inline-flex items-center gap-2 rounded-xl bg-accent text-accent-foreground px-4 py-2 font-medium shadow-sm hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent/60"
               >
                 Interaksi Peta
               </button>

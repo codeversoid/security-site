@@ -39,7 +39,7 @@ export default function AboutHero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="space-y-4 md:space-y-6"
+          className="space-y-4 md:space-y-6 rounded-2xl border bg-card/40 p-6 md:p-8 shadow-lg"
         >
           <div className="flex flex-wrap items-center gap-4 md:gap-6">
             <div className="h-16 w-16 md:h-20 md:w-20 overflow-visible">
@@ -47,11 +47,11 @@ export default function AboutHero() {
                 <img src={logo} alt="Logo GardaSecurity" className="h-full w-full object-contain" />
               ) : null}
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{siteName}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">{siteName}</h1>
           </div>
           {/* Emphasis tagline to reinforce services */}
           <div
-            className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/10 px-3 py-1 text-xs md:text-sm text-[#D4AF37] font-semibold tracking-wide uppercase w-fit"
+            className="inline-flex items-center gap-2 rounded-full border border-accent/50 bg-gradient-to-b from-accent/20 to-accent/10 px-3 py-1 text-xs md:text-sm text-white font-semibold tracking-wide uppercase w-fit"
             aria-label="Outsourcing Jasa Pengamanan, Office Boy, dan Cleaning Service"
           >
             <span>OUTSOURCING JASA PENGAMANAN, OFFICE BOY DAN CLEANING SERVICE</span>

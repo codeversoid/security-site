@@ -19,7 +19,7 @@ export default function ProfileCTA() {
         <div className="mt-4">
           <Link
             href="/download/compro"
-            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-accent hover:text-accent-foreground transition"
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-accent hover:text-accent transition"
           >
             Download Brosur
             <span aria-hidden>↓</span>

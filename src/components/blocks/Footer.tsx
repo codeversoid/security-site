@@ -68,7 +68,7 @@ export default function Footer() {
                   <Link
                     href={`/news/${p.slug}`}
                     prefetch
-                    className="hover:text-[#D4AF37] transition-colors line-clamp-2"
+                    className="hover:text-accent transition-colors line-clamp-2"
                   >
                     {p.title}
                   </Link>
@@ -97,7 +97,7 @@ export default function Footer() {
                 target="_self"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
               >
                 <Facebook className="size-4" />
               </a>
@@ -108,7 +108,7 @@ export default function Footer() {
                 target="_self"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-[#D4AF37] hover:text-[#D4AF37]"
+                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
               >
                 <Instagram className="size-4" />
               </a>

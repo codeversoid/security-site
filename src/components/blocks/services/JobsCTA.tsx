@@ -14,13 +14,13 @@ export default function JobsCTA() {
       >
         <h2 className="text-xl font-semibold tracking-tight">lamaran satpam</h2>
         <p className="mt-2 text-sm text-muted-foreground max-w-3xl">
-          GADA-86 membutuhkan personil yang siap dengan tantangan untuk ditempatkan di berbagai instansi
-          pemerintahan atau swasta. Segera kirim lamaran ke kami melalui link di bawah ini.
+          PT. Lemos Jaya Perkasa membuka kesempatan bagi personil pengamanan yang siap bertugas di berbagai
+          instansi pemerintahan maupun swasta. Kirimkan lamaran Anda melalui tautan berikut.
         </p>
         <div className="mt-4">
           <Link
             href="/contact?apply=satpam"
-            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] transition"
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-accent hover:text-accent transition"
           >
             Kirim Lamaran
             <span aria-hidden>→</span>

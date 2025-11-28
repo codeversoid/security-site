@@ -7,7 +7,7 @@ export default function ContactPage() {
     <main>
       <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-10 lg:py-16">
         <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-white">Kontak</h1>
-        <p className="mt-2 text-zinc-300">Kami siap membantu kebutuhan keamanan Anda, dari konsultasi hingga implementasi.</p>
+        <p className="mt-2 text-foreground">Kami siap membantu kebutuhan keamanan Anda, dari konsultasi hingga implementasi.</p>
       </section>
 
       <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 pb-12 lg:pb-16">

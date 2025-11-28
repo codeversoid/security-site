@@ -35,11 +35,19 @@ export async function GET() {
       .order("category", { ascending: true });
     if (!catErr && !itemsErr && Array.isArray(categories) && Array.isArray(items)) {
       const cats = (categories ?? []).map((c: any) => ({ id: String(c.id ?? ""), name: String(c.name ?? "") }));
-      const its = (items ?? []).map((it: any) => ({
-        src: String(it.src ?? ""),
-        alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
-        category: String(it.category ?? ""),
-      }));
+      const seen = new Set<string>();
+      const its = (items ?? [])
+        .map((it: any) => ({
+          src: String(it.src ?? ""),
+          alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
+          category: String(it.category ?? ""),
+        }))
+        .filter((it: { src: string; alt: string; category: string }) => {
+          const k = it.src;
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        });
       return NextResponse.json({ status: "ok", data: { categories: cats, items: its } });
     }
   } catch {}
@@ -52,11 +60,19 @@ export async function GET() {
     const cats = Array.isArray(json?.categories) ? json.categories : [];
     const its = Array.isArray(json?.items) ? json.items : [];
     const normCats = cats.map((c: any) => ({ id: String(c.id ?? ""), name: String(c.name ?? "") }));
-    const normItems = its.map((it: any) => ({
-      src: String(it.src ?? ""),
-      alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
-      category: String(it.category ?? ""),
-    }));
+    const seen = new Set<string>();
+    const normItems = its
+      .map((it: any) => ({
+        src: String(it.src ?? ""),
+        alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
+        category: String(it.category ?? ""),
+      }))
+      .filter((it: { src: string; alt: string; category: string }) => {
+        const k = it.src;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
     return NextResponse.json({ status: "ok", data: { categories: normCats, items: normItems } });
   } catch {}
 
@@ -86,12 +102,25 @@ export async function POST(req: Request) {
     if (!Array.isArray(body.items) || !Array.isArray(body.categories)) {
       return NextResponse.json({ status: "error", message: "Invalid shape" }, { status: 400 });
     }
-    const categories = body.categories.map((c: any) => ({ id: String(c.id), name: String(c.name) }));
-    const items = body.items.map((it: any) => ({
+    const categoriesRaw = body.categories.map((c: any) => ({ id: String(c.id), name: String(c.name) }));
+    const catSeen = new Set<string>();
+    const categories = categoriesRaw.filter((c: any) => {
+      if (catSeen.has(c.id)) return false;
+      catSeen.add(c.id);
+      return true;
+    });
+    const itemsRaw = body.items.map((it: any) => ({
       src: String(it.src ?? ""),
       alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
       category: String(it.category ?? ""),
     }));
+    const itemSeen = new Set<string>();
+    const items = itemsRaw.filter((it: any) => {
+      const k = `${it.src}`;
+      if (itemSeen.has(k)) return false;
+      itemSeen.add(k);
+      return true;
+    });
 
     // upsert categories
     const catUpsert = await supabase.from("gallery_categories").upsert(categories);

@@ -32,6 +32,8 @@ export default function GalleryGrid() {
   const [index, setIndex] = useState(0);
   const ITEMS_PER_PAGE = 12;
   const [currentPage, setCurrentPage] = useState(1);
+  const SLIDE_SIZE = 8;
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -49,22 +51,45 @@ export default function GalleryGrid() {
     })();
   }, []);
 
-  const filtered = useMemo(() => items.filter((it) => it.category === tab), [items, tab]);
+  const filtered = useMemo(() => (tab === "semua" ? items : items.filter((it) => it.category === tab)), [items, tab]);
+  const semuaSlides = useMemo(() => {
+    if (tab !== "semua") return [] as GalleryItem[][];
+    const d = items.filter((it) => it.category === "diklat");
+    const e = items.filter((it) => it.category === "event");
+    const slides: GalleryItem[][] = [];
+    let di = 0;
+    let ei = 0;
+    while (di < d.length || ei < e.length) {
+      const group: GalleryItem[] = [];
+      const takeD = Math.min(4, d.length - di);
+      for (let i = 0; i < takeD; i++) group.push(d[di++]);
+      const takeE = Math.min(4, e.length - ei);
+      for (let i = 0; i < takeE; i++) group.push(e[ei++]);
+      while (group.length < SLIDE_SIZE && (di < d.length || ei < e.length)) {
+        if (di < d.length) group.push(d[di++]);
+        else if (ei < e.length) group.push(e[ei++]);
+        else break;
+      }
+      slides.push(group);
+    }
+    return slides;
+  }, [items, tab]);
+  const semuaFlat = useMemo(() => (tab === "semua" ? semuaSlides.flat() : []), [tab, semuaSlides]);
   const totalPages = useMemo(() => Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE)), [filtered.length]);
-  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentPageClamped = useMemo(() => Math.min(currentPage, totalPages), [currentPage, totalPages]);
+  const startIdx = (currentPageClamped - 1) * ITEMS_PER_PAGE;
   const paged = useMemo(() => filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE), [filtered, startIdx]);
+  const currentSlideClamped = useMemo(() => Math.min(currentSlide, Math.max(0, semuaSlides.length - 1)), [currentSlide, semuaSlides.length]);
+  const totalImages = tab === "semua" ? semuaFlat.length : filtered.length;
 
-  useEffect(() => {
-    // Reset ke halaman pertama saat ganti tab atau data berubah
-    setCurrentPage(1);
-  }, [tab, filtered.length]);
+  
 
   const onOpen = (i: number) => {
     setIndex(i);
     setOpen(true);
   };
-  const onPrev = () => setIndex((i) => (i === 0 ? filtered.length - 1 : i - 1));
-  const onNext = () => setIndex((i) => (i === filtered.length - 1 ? 0 : i + 1));
+  const onPrev = () => setIndex((i) => (i === 0 ? Math.max(0, totalImages - 1) : i - 1));
+  const onNext = () => setIndex((i) => (i === Math.max(0, totalImages - 1) ? 0 : i + 1));
 
   return (
     <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-10 lg:py-16">
@@ -82,45 +107,106 @@ export default function GalleryGrid() {
         </Tabs>
       </div>
 
-      <div className="mt-6 grid grid-cols-12 gap-4 md:gap-6">
-        {paged.map((img, i) => (
-          <motion.button
-            key={`${img.src}-${i}`}
-            type="button"
-            className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 group"
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.05 }}
-            onClick={() => onOpen(i)}
-          >
-            <div className="relative overflow-hidden rounded-xl border bg-card/40">
-              <Image
-                src={img.src}
-                alt={img.alt || "Gambar galeri"}
-                width={800}
-                height={600}
-                className="h-40 w-full object-cover md:h-52 lg:h-56 transition-transform duration-300 group-hover:scale-[1.03]"
-              />
-              <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
-                  <p className="text-white font-medium">{img.alt}</p>
+      {tab === "semua" ? (
+        <div className="relative mt-6">
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${currentSlideClamped * 100}%)`, width: `${Math.max(1, semuaSlides.length) * 100}%` }}
+            >
+              {semuaSlides.map((group, sIdx) => (
+                <div key={`slide-${sIdx}`} className="min-w-full grid grid-cols-12 gap-4 md:gap-6">
+                  {group.map((img, i) => (
+                    <motion.button
+                      key={`${img.src}-${sIdx}-${i}`}
+                      type="button"
+                      className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 group"
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.03 }}
+                      onClick={() => onOpen(sIdx * SLIDE_SIZE + i)}
+                    >
+                      <div className="group relative overflow-hidden rounded-xl border bg-card/40 transition hover:border-accent/70 hover:shadow-lg">
+                        <Image
+                          src={img.src}
+                          alt={img.alt || "Gambar galeri"}
+                          width={800}
+                          height={600}
+                          className="h-56 w-full object-cover md:h-64 lg:h-72 transition-transform duration-300 group-hover:scale-[1.03]"
+                        />
+                    <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent" />
+                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
+                        <p className="text-black font-medium">{img.alt}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          ))}
+            </div>
+          </div>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
+              aria-label="Sebelumnya"
+              onClick={() => setCurrentSlide((s) => (s === 0 ? Math.max(0, semuaSlides.length - 1) : s - 1))}
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
+              aria-label="Berikutnya"
+              onClick={() => setCurrentSlide((s) => (s + 1) % Math.max(1, semuaSlides.length))}
+            >
+              →
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-6 grid grid-cols-12 gap-4 md:gap-6">
+          {paged.map((img, i) => (
+            <motion.button
+              key={`${img.src}-${i}`}
+              type="button"
+              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 group"
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.05 }}
+              onClick={() => onOpen(i)}
+            >
+              <div className="group relative overflow-hidden rounded-xl border bg-card/40 transition hover:border-accent/70 hover:shadow-lg">
+                <Image
+                  src={img.src}
+                  alt={img.alt || "Gambar galeri"}
+                  width={800}
+                  height={600}
+                  className="h-56 w-full object-cover md:h-64 lg:h-72 transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
+                    <p className="text-black font-medium">{img.alt}</p>
+                  </div>
                 </div>
               </div>
-              <div className="absolute inset-0 rounded-xl ring-1 ring-transparent group-hover:ring-[#D4AF37]/70 transition" />
-            </div>
-          </motion.button>
-        ))}
-      </div>
+            </motion.button>
+          ))}
+        </div>
+      )}
 
-      {totalPages > 1 && (
+      {tab !== "semua" && totalPages > 1 && (
         <div className="mt-6 flex items-center justify-center gap-2">
           <button
             type="button"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
             aria-label="Sebelumnya"
-            disabled={currentPage === 1}
+            disabled={currentPageClamped === 1}
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
           >
             ←
@@ -130,9 +216,9 @@ export default function GalleryGrid() {
               key={`page-${p}`}
               type="button"
               className={`inline-flex h-9 min-w-9 items-center justify-center rounded-full border px-3 text-sm ${
-                currentPage === p ? "bg-primary text-primary-foreground" : "bg-background hover:bg-accent hover:text-accent-foreground"
+                currentPageClamped === p ? "bg-primary text-primary-foreground" : "bg-background hover:bg-accent hover:text-accent-foreground"
               }`}
-              aria-current={currentPage === p ? "page" : undefined}
+              aria-current={currentPageClamped === p ? "page" : undefined}
               onClick={() => setCurrentPage(p)}
             >
               {p}
@@ -142,7 +228,7 @@ export default function GalleryGrid() {
             type="button"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground"
             aria-label="Berikutnya"
-            disabled={currentPage === totalPages}
+            disabled={currentPageClamped === totalPages}
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
           >
             →
@@ -152,7 +238,7 @@ export default function GalleryGrid() {
 
       <LightboxModal
         open={open}
-        images={filtered.map(({ src, alt }) => ({ src, alt }))}
+        images={(tab === "semua" ? semuaFlat : filtered).map(({ src, alt }) => ({ src, alt }))}
         index={index}
         onClose={() => setOpen(false)}
         onPrev={onPrev}

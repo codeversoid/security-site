@@ -6,20 +6,35 @@ import { useEffect, useState } from "react";
 
 export default function Hero() {
   const [heroUrl, setHeroUrl] = useState<string>("");
+  const [heroReady, setHeroReady] = useState<boolean>(false);
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch("/api/site", { cache: "no-store" });
         const json = await res.json();
         const url = String(json?.data?.homeHeroImageUrl ?? "");
-        if (url) setHeroUrl(url);
+        if (url) {
+          try {
+            const head = await fetch(url, { method: "HEAD" });
+            if (head.ok) {
+              setHeroUrl(url + (url.includes("?") ? "&" : "?") + `v=${Date.now()}`);
+              setHeroReady(true);
+            } else {
+              setHeroUrl("");
+              setHeroReady(false);
+            }
+          } catch {
+            setHeroUrl("");
+            setHeroReady(false);
+          }
+        }
       } catch {}
     })();
   }, []);
   return (
     <section className="relative overflow-hidden">
       {/* Background image + overlay gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/20 to-black/60" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/10 to-white/80" />
 
       <div className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-16 lg:py-24">
         <div className="grid gap-8 md:grid-cols-2 md:items-center">
@@ -57,7 +72,7 @@ export default function Hero() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
           >
-            {heroUrl ? (
+            {heroUrl && heroReady ? (
               // gunakan img biasa agar tidak tergantung Next/Image config
               <img src={heroUrl} alt="Hero Image" className="h-full w-full object-cover object-center" />
             ) : (

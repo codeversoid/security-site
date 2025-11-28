@@ -56,12 +56,12 @@ export default function NewsPreview() {
     <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-12 lg:py-20">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium tracking-wide text-amber-300">Untuk Informasi Lebih Lanjut</p>
+          <p className="text-sm font-medium tracking-wide text-accent">Untuk Informasi Lebih Lanjut</p>
           <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Berita Terbaru</h2>
         </div>
         <Link
           href="/news"
-          className="text-sm rounded-full border px-3 py-1.5 hover:border-[#D4AF37] hover:text-[#D4AF37] transition"
+          className="text-sm rounded-full border px-3 py-1.5 hover:border-accent hover:text-accent transition"
         >
           Lihat Semua Berita
         </Link>

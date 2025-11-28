@@ -52,7 +52,7 @@ export default function TrainingRibbon() {
     <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-16 lg:py-24">
       <div className="rounded-2xl border border-zinc-800 bg-card/40 p-6 md:p-8">
         <div className="mb-4">
-          <p className="text-sm font-medium tracking-wide text-amber-300">Legalitas & Sertifikasi</p>
+          <p className="text-sm font-medium tracking-wide text-accent">Legalitas & Sertifikasi</p>
           <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Perizinan, Sertifikasi, dan Jaminan</h2>
         </div>
         <Tabs defaultValue="perizinan">
@@ -62,7 +62,7 @@ export default function TrainingRibbon() {
                 <TabsTrigger
                   key={c.key}
                   value={c.key}
-                  className="rounded-full border px-3 py-1 text-sm hover:border-accent/70 flex-none h-auto whitespace-nowrap transition-colors data-[state=active]:bg-background data-[state=active]:border-[#D4AF37] data-[state=active]:text-[#D4AF37] data-[state=active]:shadow-sm"
+                  className="rounded-full border px-3 py-1 text-sm hover:border-accent/70 flex-none h-auto whitespace-nowrap transition-colors data-[state=active]:bg-background data-[state=active]:border-accent data-[state=active]:text-accent data-[state=active]:shadow-sm"
                   id={c.key}
                   aria-label={`Tampilkan ${c.name}`}
                 >
@@ -103,7 +103,7 @@ export default function TrainingRibbon() {
                   href="https://wa.me/628120311082194?text=Halo%2C%20mohon%20info%20Legalitas%20%26%20Sertifikasi"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-xl border border-amber-500/40 bg-gradient-to-b from-amber-500/20 to-amber-600/10 px-4 py-2 text-sm text-amber-300 transition hover:border-amber-400 hover:from-amber-500/30 hover:to-amber-600/20 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                  className="inline-flex items-center gap-2 rounded-xl border border-accent/40 bg-gradient-to-b from-accent/20 to-accent/10 px-4 py-2 text-sm text-accent transition hover:border-accent/60 hover:from-accent/30 hover:to-accent/20 focus:outline-none focus:ring-2 focus:ring-accent/40"
                   aria-label="Verifikasi dokumen via WhatsApp"
                 >
                   Verifikasi via WhatsApp

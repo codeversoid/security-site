@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Compressor from "compressorjs";
 
 type SiteSettings = {
   siteName: string;
@@ -70,10 +71,16 @@ export default function AdminPage() {
   const [newMember, setNewMember] = useState<Member>({ name: "", role: "", imageUrl: "" });
   const [uploadingMemberImage, setUploadingMemberImage] = useState(false);
   const [memberImageUploadStatus, setMemberImageUploadStatus] = useState<string | null>(null);
+  const [uploadingEditMemberImage, setUploadingEditMemberImage] = useState(false);
+  const [editMemberImageUploadStatus, setEditMemberImageUploadStatus] = useState<string | null>(null);
   const [newPartnerLogo, setNewPartnerLogo] = useState<string>("");
   const [newPartnerName, setNewPartnerName] = useState<string>("");
   const [uploadingPartnerLogo, setUploadingPartnerLogo] = useState(false);
   const [partnerUploadStatus, setPartnerUploadStatus] = useState<string | null>(null);
+  const [editingMemberIndex, setEditingMemberIndex] = useState<number | null>(null);
+  const [memberEditDraft, setMemberEditDraft] = useState<Member | null>(null);
+  const [dragMemberIndex, setDragMemberIndex] = useState<number | null>(null);
+  const [dragOverMemberIndex, setDragOverMemberIndex] = useState<number | null>(null);
 
   const slugify = (s: string) =>
     s
@@ -172,16 +179,57 @@ export default function AdminPage() {
     setNewItem({ src: "", alt: "", category: gallery.categories[0]?.id ?? "diklat" });
   };
 
-  const removeGalleryItem = (src: string) => {
-    if (!gallery) return;
-    setGallery({ ...gallery, items: gallery.items.filter((it) => it.src !== src) });
+  const parseStoragePublicUrl = (url: string) => {
+    try {
+      const u = new URL(url);
+      const marker = "/storage/v1/object/public/";
+      const idx = u.pathname.indexOf(marker);
+      if (idx === -1) return null;
+      const suffix = u.pathname.substring(idx + marker.length);
+      const [bucket, ...rest] = suffix.split("/");
+      const path = rest.join("/");
+      if (!bucket || !path) return null;
+      return { bucket, path };
+    } catch {
+      return null;
+    }
   };
 
-  const saveGallery = async () => {
+  const removeGalleryItem = async (src: string) => {
     if (!gallery) return;
+    const next = { ...gallery, items: gallery.items.filter((it) => it.src !== src) };
+    setGallery(next);
+    const parsed = parseStoragePublicUrl(src);
+    if (parsed) {
+      setGalleryStatus("Menghapus file dari storage...");
+      try {
+        const resp = await fetch("/api/storage", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bucket: parsed.bucket, path: parsed.path }),
+        });
+        const json = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          setGalleryStatus(`Gagal hapus storage: ${json?.message || "unknown"}`);
+        } else {
+          const removedCount = Array.isArray(json?.removed) ? json.removed.length : (json?.removed ? 1 : 0);
+          setGalleryStatus(removedCount > 0 ? "File di storage terhapus" : "Tidak ada file dihapus");
+        }
+      } catch {
+        setGalleryStatus("Gagal menghapus storage (network error)");
+      }
+    } else {
+      setGalleryStatus("URL bukan public storage atau tidak valid");
+    }
+    await saveGallery(next);
+  };
+
+  const saveGallery = async (payload?: GalleryData) => {
+    const data = payload ?? gallery;
+    if (!data) return;
     setSavingGallery(true);
     try {
-      const resp = await fetch("/api/admin/gallery", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(gallery) });
+      const resp = await fetch("/api/admin/gallery", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const json = await resp.json().catch(() => ({}));
       if (!resp.ok) {
         setGalleryStatus(`Gagal menyimpan${json?.message ? ": " + json.message : ""}`);
@@ -258,11 +306,39 @@ export default function AdminPage() {
     setAbout({ ...about, team: [...about.team, newMember] });
     setNewMember({ name: "", role: "", imageUrl: "" });
   };
+  const startEditMember = (idx: number) => {
+    if (!about) return;
+    const curr = about.team[idx];
+    if (!curr) return;
+    setEditingMemberIndex(idx);
+    setMemberEditDraft({ ...curr });
+  };
+  const applyEditMember = () => {
+    if (!about || editingMemberIndex === null || !memberEditDraft) return;
+    const next = [...about.team];
+    next[editingMemberIndex] = { ...memberEditDraft };
+    setAbout({ ...about, team: next });
+    setEditingMemberIndex(null);
+    setMemberEditDraft(null);
+  };
+  const cancelEditMember = () => {
+    setEditingMemberIndex(null);
+    setMemberEditDraft(null);
+  };
   const removeTeamMember = (idx: number) => {
     if (!about) return;
     const next = [...about.team];
     next.splice(idx, 1);
     setAbout({ ...about, team: next });
+  };
+  const reorderTeam = (from: number, to: number) => {
+    if (!about) return;
+    if (from === to) return;
+    const next = [...about.team];
+    const [item] = next.splice(from, 1);
+    next.splice(to, 0, item);
+    setAbout({ ...about, team: next });
+    setAboutStatus("Urutan diubah, klik Simpan");
   };
   const addPartner = () => {
     if (!about) return;
@@ -343,8 +419,9 @@ export default function AdminPage() {
                     setUploadingLogo(true);
                     setSiteUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "logos");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -353,9 +430,15 @@ export default function AdminPage() {
                         setSiteUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
                         return;
                       }
-                      // Simpan URL logo baru
                       setSite({ ...site, logoUrl: json.url });
-                      setSiteUploadStatus("Logo terupload, membersihkan logo lama...");
+                      setSiteUploadStatus(`Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), menyimpan & membersihkan...`);
+                      try {
+                        await fetch("/api/admin/site", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ ...site, logoUrl: json.url }),
+                        });
+                      } catch {}
 
                       // Bersihkan semua file lama di folder logos, sisakan file terbaru
                       if (json?.path) {
@@ -367,16 +450,16 @@ export default function AdminPage() {
                           });
                           const cleanJson = await cleanResp.json().catch(() => ({}));
                           if (!cleanResp.ok) {
-                            setSiteUploadStatus(`Logo terupload, tapi gagal bersihkan: ${cleanJson?.message || "unknown"}`);
+                            setSiteUploadStatus(`Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tapi gagal bersihkan: ${cleanJson?.message || "unknown"}`);
                           } else {
                             const removedCount = Array.isArray(cleanJson?.removed) ? cleanJson.removed.length : 0;
-                            setSiteUploadStatus(removedCount > 0 ? `Logo terupload, ${removedCount} file lama dihapus` : "Logo terupload");
+                            setSiteUploadStatus(removedCount > 0 ? `Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), ${removedCount} file lama dihapus` : `Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"})`);
                           }
                         } catch {
-                          setSiteUploadStatus("Logo terupload, gagal membersihkan file lama");
+                          setSiteUploadStatus(`Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), gagal membersihkan file lama`);
                         }
                       } else {
-                        setSiteUploadStatus("Logo terupload");
+                        setSiteUploadStatus(`Logo terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"})`);
                       }
                     } finally {
                       setUploadingLogo(false);
@@ -400,8 +483,9 @@ export default function AdminPage() {
                     setUploadingLogo(true);
                     setSiteUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "home/hero");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -411,7 +495,38 @@ export default function AdminPage() {
                         return;
                       }
                       setSite({ ...site, homeHeroImageUrl: json.url });
-                      setSiteUploadStatus("Hero image terupload");
+                      setSiteUploadStatus(`Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), menyimpan...`);
+                      try {
+                        await fetch("/api/admin/site", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ ...site, homeHeroImageUrl: json.url }),
+                        });
+                      } catch {}
+                      if (json?.path) {
+                        try {
+                          const cleanResp = await fetch("/api/storage", {
+                            method: "DELETE",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ bucket: "assets", folder: "home/hero", keepPath: json.path }),
+                          });
+                          const cleanJson = await cleanResp.json().catch(() => ({}));
+                          if (!cleanResp.ok) {
+                            setSiteUploadStatus(`Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tapi gagal bersihkan: ${cleanJson?.message || "unknown"}`);
+                          } else {
+                            const removedCount = Array.isArray(cleanJson?.removed) ? cleanJson.removed.length : 0;
+                            setSiteUploadStatus(removedCount > 0 ? `Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), ${removedCount} file lama dihapus` : `Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"})`);
+                          }
+                        } catch {
+                          setSiteUploadStatus(`Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), gagal membersihkan file lama`);
+                        }
+                      }
+                      try {
+                        const head = await fetch(String(json.url), { method: "HEAD" });
+                        if (!head.ok) {
+                          setSiteUploadStatus(`Hero image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tetapi URL tidak dapat diakses (${head.status})`);
+                        }
+                      } catch {}
                     } finally {
                       setUploadingLogo(false);
                     }
@@ -432,8 +547,9 @@ export default function AdminPage() {
                     setUploadingLogo(true);
                     setSiteUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "home/about");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -443,7 +559,38 @@ export default function AdminPage() {
                         return;
                       }
                       setSite({ ...site, homeAboutImageUrl: json.url });
-                      setSiteUploadStatus("About image terupload");
+                      setSiteUploadStatus(`About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), menyimpan...`);
+                      try {
+                        await fetch("/api/admin/site", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ ...site, homeAboutImageUrl: json.url }),
+                        });
+                      } catch {}
+                      if (json?.path) {
+                        try {
+                          const cleanResp = await fetch("/api/storage", {
+                            method: "DELETE",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ bucket: "assets", folder: "home/about", keepPath: json.path }),
+                          });
+                          const cleanJson = await cleanResp.json().catch(() => ({}));
+                          if (!cleanResp.ok) {
+                            setSiteUploadStatus(`About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tapi gagal bersihkan: ${cleanJson?.message || "unknown"}`);
+                          } else {
+                            const removedCount = Array.isArray(cleanJson?.removed) ? cleanJson.removed.length : 0;
+                            setSiteUploadStatus(removedCount > 0 ? `About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), ${removedCount} file lama dihapus` : `About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"})`);
+                          }
+                        } catch {
+                          setSiteUploadStatus(`About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), gagal membersihkan file lama`);
+                        }
+                      }
+                      try {
+                        const head = await fetch(String(json.url), { method: "HEAD" });
+                        if (!head.ok) {
+                          setSiteUploadStatus(`About image terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tetapi URL tidak dapat diakses (${head.status})`);
+                        }
+                      } catch {}
                     } finally {
                       setUploadingLogo(false);
                     }
@@ -587,8 +734,9 @@ export default function AdminPage() {
                   setUploadingNewsImage(true);
                   setNewsImageUploadStatus(null);
                   try {
+                    const compressed = await compressImage(file);
                     const form = new FormData();
-                    form.append("file", file);
+                    form.append("file", compressed, nameWithType(file, compressed));
                     form.append("bucket", "assets");
                     form.append("folder", "news");
                     const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -598,7 +746,7 @@ export default function AdminPage() {
                       return;
                     }
                     setNewPost((prev) => ({ ...prev, image: json.url }));
-                    setNewsImageUploadStatus("Gambar terupload");
+                    setNewsImageUploadStatus(`Gambar terupload (${formatCompression(file, compressed)})`);
                   } finally {
                     setUploadingNewsImage(false);
                   }
@@ -775,28 +923,29 @@ export default function AdminPage() {
                     type="file"
                     accept="image/*"
                     className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      setUploadingGalleryImage(true);
-                      setGalleryImageUploadStatus(null);
-                      try {
-                        const form = new FormData();
-                        form.append("file", file);
-                        form.append("bucket", "assets");
-                        form.append("folder", "gallery");
-                        const resp = await fetch("/api/upload", { method: "POST", body: form });
-                        const json = await resp.json().catch(() => ({}));
-                        if (!resp.ok || !json?.url) {
-                          setGalleryImageUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
-                          return;
-                        }
-                        setNewItem((prev) => ({ ...prev, src: json.url }));
-                        setGalleryImageUploadStatus("Gambar galeri terupload");
-                      } finally {
-                        setUploadingGalleryImage(false);
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setUploadingGalleryImage(true);
+                    setGalleryImageUploadStatus(null);
+                    try {
+                      const compressed = await compressImage(file);
+                      const form = new FormData();
+                      form.append("file", compressed, nameWithType(file, compressed));
+                      form.append("bucket", "assets");
+                      form.append("folder", "gallery");
+                      const resp = await fetch("/api/upload", { method: "POST", body: form });
+                      const json = await resp.json().catch(() => ({}));
+                      if (!resp.ok || !json?.url) {
+                        setGalleryImageUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
+                        return;
                       }
-                    }}
+                      setNewItem((prev) => ({ ...prev, src: json.url }));
+                      setGalleryImageUploadStatus(`Gambar galeri terupload (${formatCompression(file, compressed)})`);
+                    } finally {
+                      setUploadingGalleryImage(false);
+                    }
+                  }}
                   />
                   {uploadingGalleryImage && <p className="mt-2 text-xs text-muted-foreground">Mengunggah gambar galeri...</p>}
                   {galleryImageUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{galleryImageUploadStatus}</p>}
@@ -828,7 +977,7 @@ export default function AdminPage() {
           )}
         </CardContent>
         <CardFooter>
-          <Button onClick={saveGallery} disabled={savingGallery || !gallery} className="rounded-full">{savingGallery ? "Menyimpan..." : "Simpan Perubahan Galeri"}</Button>
+          <Button onClick={() => saveGallery()} disabled={savingGallery || !gallery} className="rounded-full">{savingGallery ? "Menyimpan..." : "Simpan Perubahan Galeri"}</Button>
           {galleryStatus && <span className="ml-3 text-sm text-muted-foreground">{galleryStatus}</span>}
         </CardFooter>
       </Card>
@@ -873,8 +1022,9 @@ export default function AdminPage() {
                     setUploadingDirectorPhoto(true);
                     setDirectorUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "about/director");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -884,7 +1034,7 @@ export default function AdminPage() {
                         return;
                       }
                       setAbout({ ...about, directorPhotoUrl: json.url });
-                      setDirectorUploadStatus("Foto direktur terupload");
+                      setDirectorUploadStatus(`Foto direktur terupload (${formatCompression(file, compressed)})`);
                     } finally {
                       setUploadingDirectorPhoto(false);
                     }
@@ -908,8 +1058,9 @@ export default function AdminPage() {
                     setUploadingAboutLogo(true);
                     setAboutLogoUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "about/logo");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -919,7 +1070,7 @@ export default function AdminPage() {
                         return;
                       }
                       setAbout({ ...about, aboutLogoUrl: json.url });
-                      setAboutLogoUploadStatus("Logo about terupload");
+                      setAboutLogoUploadStatus(`Logo about terupload (${formatCompression(file, compressed)})`);
                     } finally {
                       setUploadingAboutLogo(false);
                     }
@@ -954,8 +1105,9 @@ export default function AdminPage() {
                     setUploadingMemberImage(true);
                     setMemberImageUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, nameWithType(file, compressed));
                       form.append("bucket", "assets");
                       form.append("folder", "about/team");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -965,7 +1117,7 @@ export default function AdminPage() {
                         return;
                       }
                       setNewMember((prev) => ({ ...prev, imageUrl: json.url }));
-                      setMemberImageUploadStatus("Gambar anggota terupload");
+                      setMemberImageUploadStatus(`Gambar anggota terupload (${formatCompression(file, compressed)})`);
                     } finally {
                       setUploadingMemberImage(false);
                     }
@@ -980,12 +1132,87 @@ export default function AdminPage() {
               <div className="col-span-12">
                 <ul className="mt-3 space-y-2">
                   {about.team.map((m, idx) => (
-                    <li key={`${m.name}-${idx}`} className="flex items-center justify-between rounded-lg border bg-card/30 px-3 py-2">
-                      <div>
-                        <p className="font-medium">{m.name}</p>
-                        <p className="text-xs text-muted-foreground">{m.role} — {m.imageUrl}</p>
-                      </div>
-                      <Button variant="ghost" size="sm" onClick={() => removeTeamMember(idx)}>Hapus</Button>
+                    <li
+                      key={`${m.name}-${idx}`}
+                      className={`flex items-center justify-between rounded-lg border bg-card/30 px-3 py-2 ${dragOverMemberIndex === idx ? "border-primary bg-accent/30" : ""} ${dragMemberIndex === idx ? "opacity-80" : ""}`}
+                      draggable
+                      onDragStart={() => setDragMemberIndex(idx)}
+                      onDragEnter={() => setDragOverMemberIndex(idx)}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={() => {
+                        if (dragMemberIndex === null) return;
+                        reorderTeam(dragMemberIndex, idx);
+                        setDragMemberIndex(null);
+                        setDragOverMemberIndex(null);
+                      }}
+                      onDragEnd={() => {
+                        setDragMemberIndex(null);
+                        setDragOverMemberIndex(null);
+                      }}
+                    >
+                      {editingMemberIndex === idx && memberEditDraft ? (
+                        <>
+                          <div className="flex-1 md:flex md:items-center md:gap-4">
+                            <div className="md:flex-1">
+                              <label className="text-xs uppercase tracking-wider text-muted-foreground">Nama</label>
+                              <input className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm" value={memberEditDraft.name} onChange={(e) => setMemberEditDraft({ ...(memberEditDraft as Member), name: e.target.value })} />
+                            </div>
+                            <div className="md:flex-1 mt-3 md:mt-0">
+                              <label className="text-xs uppercase tracking-wider text-muted-foreground">Peran</label>
+                              <input className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm" value={memberEditDraft.role} onChange={(e) => setMemberEditDraft({ ...(memberEditDraft as Member), role: e.target.value })} />
+                            </div>
+                            <div className="md:flex-1 mt-3 md:mt-0">
+                              <label className="text-xs uppercase tracking-wider text-muted-foreground">Gambar (URL)</label>
+                              <input className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm" value={memberEditDraft.imageUrl} onChange={(e) => setMemberEditDraft({ ...(memberEditDraft as Member), imageUrl: e.target.value })} />
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  setUploadingEditMemberImage(true);
+                                  setEditMemberImageUploadStatus(null);
+                                  try {
+                                    const compressed = await compressImage(file);
+                                    const form = new FormData();
+                                    form.append("file", compressed, nameWithType(file, compressed));
+                                    form.append("bucket", "assets");
+                                    form.append("folder", "about/team");
+                                    const resp = await fetch("/api/upload", { method: "POST", body: form });
+                                    const json = await resp.json().catch(() => ({}));
+                                    if (!resp.ok || !json?.url) {
+                                      setEditMemberImageUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
+                                      return;
+                                    }
+                                    setMemberEditDraft((prev) => ({ ...(prev as Member), imageUrl: json.url }));
+                                    setEditMemberImageUploadStatus(`Gambar anggota terupload (${formatCompression(file, compressed)})`);
+                                  } finally {
+                                    setUploadingEditMemberImage(false);
+                                  }
+                                }}
+                              />
+                              {uploadingEditMemberImage && <p className="mt-2 text-xs text-muted-foreground">Mengunggah gambar anggota...</p>}
+                              {editMemberImageUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{editMemberImageUploadStatus}</p>}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 ml-3">
+                            <Button variant="outline" size="sm" onClick={applyEditMember}>Simpan</Button>
+                            <Button variant="ghost" size="sm" onClick={cancelEditMember}>Batal</Button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div>
+                            <p className="font-medium">{m.name}</p>
+                            <p className="text-xs text-muted-foreground">{m.role} — {m.imageUrl}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button variant="outline" size="sm" onClick={() => startEditMember(idx)}>Update</Button>
+                            <Button variant="ghost" size="sm" onClick={() => removeTeamMember(idx)}>Hapus</Button>
+                          </div>
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -1008,8 +1235,9 @@ export default function AdminPage() {
                     setUploadingPartnerLogo(true);
                     setPartnerUploadStatus(null);
                     try {
+                      const compressed = await compressImage(file);
                       const form = new FormData();
-                      form.append("file", file);
+                      form.append("file", compressed, compressed.name || file.name);
                       form.append("bucket", "assets");
                       form.append("folder", "about/partners");
                       const resp = await fetch("/api/upload", { method: "POST", body: form });
@@ -1019,7 +1247,7 @@ export default function AdminPage() {
                         return;
                       }
                       setNewPartnerLogo(json.url);
-                      setPartnerUploadStatus("Logo mitra terupload");
+                      setPartnerUploadStatus(`Logo mitra terupload (${formatCompression(file, compressed)})`);
                     } finally {
                       setUploadingPartnerLogo(false);
                     }
@@ -1065,3 +1293,42 @@ export default function AdminPage() {
     </main>
   );
 }
+  const compressImage = (file: File) =>
+    new Promise<File>((resolve, reject) => {
+      new Compressor(file, {
+        quality: 0.6,
+        maxWidth: 4096,
+        maxHeight: 4096,
+        mimeType:
+          /image\/(jpeg|jpg|png|webp)/.test(file.type)
+            ? file.type
+            : "image/jpeg",
+        success(result) {
+          resolve(result as File);
+        },
+        error(err) {
+          reject(err);
+        },
+      });
+    });
+  const formatBytes = (bytes: number) => {
+    if (bytes === 0) return "0 B";
+    const k = 1024;
+    const sizes = ["B", "KB", "MB", "GB", "TB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const num = bytes / Math.pow(k, i);
+    return `${num.toFixed(num >= 100 ? 0 : num >= 10 ? 1 : 2)} ${sizes[i]}`;
+  };
+  const formatCompression = (orig: File, comp: File) => {
+    const name = comp.name || orig.name;
+    const o = orig.size;
+    const c = comp.size;
+    const saved = o > 0 ? ((o - c) / o) * 100 : 0;
+    const savedStr = `${saved.toFixed(saved >= 100 ? 0 : saved >= 10 ? 1 : 2)}%`;
+    return `${name}, ${formatBytes(o)} → ${formatBytes(c)}, ${savedStr}`;
+  };
+  const nameWithType = (orig: File, comp: File) => {
+    const base = (orig.name || "file").replace(/\.[^.]+$/, "");
+    const ext = comp.type === "image/jpeg" ? ".jpg" : comp.type === "image/png" ? ".png" : comp.type === "image/webp" ? ".webp" : (orig.name.match(/\.[^.]+$/)?.[0] || "");
+    return `${base}${ext}`;
+  };

@@ -35,7 +35,7 @@ export default function ServiceTiles() {
   return (
     <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 py-10 lg:py-16">
       <div className="mb-6 md:mb-8">
-        <p className="text-sm font-medium tracking-wide text-amber-300">Sorotan Layanan</p>
+        <p className="text-sm font-medium tracking-wide text-accent">Sorotan Layanan</p>
         <h2 className="mt-1 text-xl md:text-2xl font-semibold tracking-tight">Layanan Unggulan</h2>
       </div>
       <div className="grid grid-cols-12 gap-4 md:gap-6 items-stretch">
@@ -48,7 +48,7 @@ export default function ServiceTiles() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut", delay: i * 0.08 }}
           >
-            <div className="group rounded-xl border bg-card/40 p-6 hover:border-[#D4AF37]/70 hover:shadow-lg transition h-full flex flex-col">
+            <div className="group rounded-xl border bg-card/40 p-6 hover:border-accent/70 hover:shadow-lg transition h-full flex flex-col">
               <h2 className="text-xl font-semibold tracking-tight">{t.title}</h2>
               <div className="mt-2 space-y-1">
                 {Array.isArray(t.descLines)
@@ -62,7 +62,7 @@ export default function ServiceTiles() {
                   href={t.href}
                   prefetch
                   aria-label={t.ariaLabel}
-                  className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] transition focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+                  className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-accent hover:text-accent transition focus-visible:ring-2 focus-visible:ring-accent/50"
                 >
                   Selengkapnya
                   <span aria-hidden>→</span>

@@ -36,16 +36,16 @@ export default function AboutPreview() {
               untuk menjaga keamanan, kebersihan, dan kenyamanan lingkungan kerja klien.
             </p>
             <ul className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-muted-foreground">
-              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D4AF37]" /> Legalitas lengkap</li>
-              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D4AF37]" /> Personel bersertifikat</li>
-              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D4AF37]" /> Teknologi terintegrasi</li>
-              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#D4AF37]" /> Pengalaman lintas sektor</li>
+              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent" /> Legalitas lengkap</li>
+              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent" /> Personel bersertifikat</li>
+              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent" /> Teknologi terintegrasi</li>
+              <li className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent" /> Pengalaman lintas sektor</li>
             </ul>
             <div className="mt-6">
               <Link
                 href="/about"
                 prefetch
-                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-[#D4AF37] hover:text-[#D4AF37] transition"
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm hover:border-accent hover:text-accent transition"
               >
                 Pelajari Tentang Kami
               </Link>

@@ -15,18 +15,22 @@ export default function Badges() {
         {badges.map((b, i) => (
           <motion.div
             key={b.title}
-            className="col-span-12 md:col-span-4"
+            className="col-span-12 md:col-span-4 h-full"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
           >
-            <div className="group rounded-xl border bg-card/40 p-5 hover:border-accent/70 hover:shadow-lg transition">
+            <div className="group h-full rounded-xl border bg-card/40 p-5 min-h-[160px] hover:border-accent/70 hover:shadow-lg transition">
               <div className="h-10 w-10 rounded-lg ring-1 ring-border bg-card/60 overflow-hidden">
-                <Image src={b.icon} alt={b.title} width={40} height={40} />
+                <Image src={b.icon} alt={b.title} width={40} height={40} style={{ filter: "invert(32%) sepia(78%) saturate(548%) hue-rotate(185deg) brightness(95%) contrast(92%)" }} />
               </div>
               <h3 className="mt-3 font-semibold">{b.title}</h3>
               <p className="text-sm text-muted-foreground">{b.desc}</p>
+              <div className="mt-4 inline-flex items-center gap-2 text-accent font-medium">
+                <span>Selengkapnya</span>
+                <span aria-hidden>→</span>
+              </div>
             </div>
           </motion.div>
         ))}

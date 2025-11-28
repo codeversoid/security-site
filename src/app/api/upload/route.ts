@@ -43,9 +43,27 @@ export async function POST(request: Request) {
   const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
   const path = `${folder}/${user.id}-${timestamp}-${cleanName}`;
 
+  const ext = cleanName.split(".").pop()?.toLowerCase();
+  let contentType = (file.type || "").toLowerCase();
+  if (!contentType || contentType === "application/octet-stream") {
+    contentType =
+      ext === "jpg" || ext === "jpeg"
+        ? "image/jpeg"
+        : ext === "png"
+        ? "image/png"
+        : ext === "webp"
+        ? "image/webp"
+        : ext === "svg"
+        ? "image/svg+xml"
+        : ext === "gif"
+        ? "image/gif"
+        : "image/jpeg";
+  }
+
   const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, {
     upsert: true,
-    contentType: file.type || "application/octet-stream",
+    contentType,
+    cacheControl: "public, max-age=31536000, immutable",
   });
 
   if (uploadError) {

@@ -23,11 +23,11 @@ export default function Stats() {
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.06 }}
           >
-            <div className="rounded-xl border bg-card/40 p-5 hover:border-[#D4AF37]/70 hover:shadow-lg transition">
+            <div className="rounded-xl border bg-card/40 p-5 hover:border-accent/70 hover:shadow-lg transition">
               <p className="font-semibold capitalize">{s.label}</p>
               <div className="mt-3 h-2 w-full rounded-full bg-muted">
                 <motion.div
-                  className="h-2 rounded-full bg-[#D4AF37]"
+                  className="h-2 rounded-full bg-accent"
                   initial={{ width: 0 }}
                   whileInView={{ width: `${s.value}%` }}
                   viewport={{ once: true }}

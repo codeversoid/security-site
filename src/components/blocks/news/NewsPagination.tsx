@@ -23,7 +23,7 @@ export default function NewsPagination({ current, totalPages, basePath = "/news"
       <Link
         prefetch
         href={prevDisabled ? "#" : makeHref(current - 1)}
-        className={`px-3 py-1.5 rounded-md border text-sm ${prevDisabled ? "pointer-events-none opacity-50" : "hover:border-[#D4AF37] hover:text-[#D4AF37]"}`}
+        className={`px-3 py-1.5 rounded-md border text-sm ${prevDisabled ? "pointer-events-none opacity-50" : "hover:border-accent hover:text-accent"}`}
       >
         Prev
       </Link>
@@ -32,7 +32,7 @@ export default function NewsPagination({ current, totalPages, basePath = "/news"
           key={p}
           prefetch
           href={makeHref(p)}
-          className={`px-3 py-1.5 rounded-md border text-sm ${p === current ? "bg-[#D4AF37]/10 border-[#D4AF37] text-[#D4AF37]" : "hover:border-[#D4AF37] hover:text-[#D4AF37]"}`}
+          className={`px-3 py-1.5 rounded-md border text-sm ${p === current ? "bg-accent/10 border-accent text-accent" : "hover:border-accent hover:text-accent"}`}
         >
           {p}
         </Link>
@@ -40,7 +40,7 @@ export default function NewsPagination({ current, totalPages, basePath = "/news"
       <Link
         prefetch
         href={nextDisabled ? "#" : makeHref(current + 1)}
-        className={`px-3 py-1.5 rounded-md border text-sm ${nextDisabled ? "pointer-events-none opacity-50" : "hover:border-[#D4AF37] hover:text-[#D4AF37]"}`}
+        className={`px-3 py-1.5 rounded-md border text-sm ${nextDisabled ? "pointer-events-none opacity-50" : "hover:border-accent hover:text-accent"}`}
       >
         Next
       </Link>

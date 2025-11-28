@@ -36,11 +36,19 @@ export async function GET() {
 
     if (!catErr && !itemsErr && Array.isArray(categories) && Array.isArray(items)) {
       const cats = (categories ?? []).map((c: any) => ({ id: String(c.id ?? ""), name: String(c.name ?? "") }));
-      const its = (items ?? []).map((it: any) => ({
-        src: String(it.src ?? ""),
-        alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
-        category: String(it.category ?? ""),
-      }));
+      const seen = new Set<string>();
+      const its = (items ?? [])
+        .map((it: any) => ({
+          src: String(it.src ?? ""),
+          alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
+          category: String(it.category ?? ""),
+        }))
+        .filter((it: { src: string; alt: string; category: string }) => {
+          const k = it.src;
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        });
       return NextResponse.json(
         { status: "ok", data: { categories: cats, items: its } },
         { headers: {
@@ -59,11 +67,19 @@ export async function GET() {
     const cats = Array.isArray(json?.categories) ? json.categories : [];
     const its = Array.isArray(json?.items) ? json.items : [];
     const normCats = cats.map((c: any) => ({ id: String(c.id ?? ""), name: String(c.name ?? "") }));
-    const normItems = its.map((it: any) => ({
-      src: String(it.src ?? ""),
-      alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
-      category: String(it.category ?? ""),
-    }));
+    const seen = new Set<string>();
+    const normItems = its
+      .map((it: any) => ({
+        src: String(it.src ?? ""),
+        alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
+        category: String(it.category ?? ""),
+      }))
+      .filter((it: { src: string; alt: string; category: string }) => {
+        const k = it.src;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      });
     return NextResponse.json(
       { status: "ok", data: { categories: normCats, items: normItems } },
       { headers: {

@@ -37,19 +37,19 @@ export default function NewsCard({ post, index = 0 }: Props) {
             priority={index < 2}
           />
           <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/25 to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-              <p className="text-white font-semibold line-clamp-1">{post.title}</p>
+              <p className="text-black font-semibold line-clamp-1">{post.title}</p>
             </div>
           </div>
-          <div className="absolute inset-0 rounded-xl ring-1 ring-transparent group-hover:ring-[#D4AF37]/70 transition" />
+          <div className="absolute inset-0 rounded-xl ring-1 ring-transparent group-hover:ring-accent/70 transition" />
         </div>
 
         <div className="p-4 flex flex-col flex-1">
           <p className="text-sm text-muted-foreground">{post.date}</p>
           <h3 className="mt-1 font-semibold leading-snug line-clamp-2">{post.title}</h3>
           <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>
-          <div className="mt-4 inline-flex items-center gap-2 text-[#D4AF37] font-medium mt-auto">
+          <div className="mt-4 inline-flex items-center gap-2 text-accent font-medium mt-auto">
             <span>Baca selengkapnya</span>
             <span aria-hidden>→</span>
           </div>

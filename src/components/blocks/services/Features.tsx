@@ -24,9 +24,9 @@ export default function Features() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.06 }}
           >
-            <div className="group rounded-xl border bg-card/40 p-5 hover:border-[#D4AF37]/70 hover:shadow-lg transition">
+            <div className="group rounded-xl border bg-card/40 p-5 hover:border-accent/70 hover:shadow-lg transition">
               <div className="h-10 w-10 rounded-lg ring-1 ring-border bg-card/60 overflow-hidden">
-                <Image src={f.icon} alt={f.title} width={40} height={40} />
+                <Image src={f.icon} alt={f.title} width={40} height={40} style={{ filter: "invert(32%) sepia(78%) saturate(548%) hue-rotate(185deg) brightness(95%) contrast(92%)" }} />
               </div>
               <p className="mt-3 font-semibold capitalize">{f.title}</p>
             </div>
