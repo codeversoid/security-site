@@ -16,6 +16,11 @@ const DEFAULT_SITE = {
   whatsapp: "6281234567890",
   homeHeroImageUrl: "",
   homeAboutImageUrl: "",
+  instagramUrl: "",
+  facebookUrl: "",
+  mapLinkHref: "https://maps.google.com/?q=Kantor",
+  mapEmbedSrc: "",
+  mapTitle: "Lokasi Kantor",
 };
 
 export async function GET() {
@@ -43,7 +48,7 @@ export async function GET() {
       .select("siteName,logoUrl,address,email,phone,comproUrl,whatsapp")
       .eq("id", 1)
       .maybeSingle();
-    // Baca ekstensi konfigurasi (gambar home) dari file JSON publik
+    // Baca ekstensi konfigurasi dari file JSON publik
     let extra: Partial<typeof DEFAULT_SITE> = {};
     try {
       const p = path.join(process.cwd(), "public", "data", "site.json");
@@ -52,6 +57,11 @@ export async function GET() {
       extra = {
         homeHeroImageUrl: String(json?.homeHeroImageUrl ?? ""),
         homeAboutImageUrl: String(json?.homeAboutImageUrl ?? ""),
+        instagramUrl: String(json?.instagramUrl ?? ""),
+        facebookUrl: String(json?.facebookUrl ?? ""),
+        mapLinkHref: String(json?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
+        mapEmbedSrc: String(json?.mapEmbedSrc ?? ""),
+        mapTitle: String(json?.mapTitle ?? DEFAULT_SITE.mapTitle),
       };
     } catch {}
 

@@ -15,6 +15,11 @@ const DEFAULT_SITE = {
   whatsapp: "6281234567890",
   homeHeroImageUrl: "",
   homeAboutImageUrl: "",
+  instagramUrl: "",
+  facebookUrl: "",
+  mapLinkHref: "https://maps.google.com/?q=Kantor",
+  mapEmbedSrc: "",
+  mapTitle: "Lokasi Kantor",
 };
 
 export async function GET() {
@@ -47,12 +52,21 @@ export async function GET() {
 
   let payload: any = data ?? DEFAULT_SITE;
 
-  // Gabungkan tambahan dari file JSON publik (gambar home)
+  // Gabungkan tambahan dari file JSON publik
   try {
     const p = path.join(process.cwd(), "public", "data", "site.json");
     const txt = fs.readFileSync(p, "utf-8");
     const json = JSON.parse(txt);
-    payload = { ...payload, homeHeroImageUrl: String(json?.homeHeroImageUrl ?? ""), homeAboutImageUrl: String(json?.homeAboutImageUrl ?? "") };
+    payload = {
+      ...payload,
+      homeHeroImageUrl: String(json?.homeHeroImageUrl ?? ""),
+      homeAboutImageUrl: String(json?.homeAboutImageUrl ?? ""),
+      instagramUrl: String(json?.instagramUrl ?? ""),
+      facebookUrl: String(json?.facebookUrl ?? ""),
+      mapLinkHref: String(json?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
+      mapEmbedSrc: String(json?.mapEmbedSrc ?? ""),
+      mapTitle: String(json?.mapTitle ?? DEFAULT_SITE.mapTitle),
+    };
   } catch {}
 
   if (!data) {
@@ -101,7 +115,7 @@ export async function POST(req: Request) {
     if (error) {
       return NextResponse.json({ status: "error", message: error.message }, { status: 500 });
     }
-    // Simpan field gambar home pada file JSON publik
+    // Simpan field tambahan pada file JSON publik
     try {
       const p = path.join(process.cwd(), "public", "data", "site.json");
       const prevTxt = fs.existsSync(p) ? fs.readFileSync(p, "utf-8") : "{}";
@@ -109,11 +123,25 @@ export async function POST(req: Request) {
       const extra = {
         homeHeroImageUrl: String(body.homeHeroImageUrl ?? prev?.homeHeroImageUrl ?? DEFAULT_SITE.homeHeroImageUrl),
         homeAboutImageUrl: String(body.homeAboutImageUrl ?? prev?.homeAboutImageUrl ?? DEFAULT_SITE.homeAboutImageUrl),
+        instagramUrl: String(body.instagramUrl ?? prev?.instagramUrl ?? ""),
+        facebookUrl: String(body.facebookUrl ?? prev?.facebookUrl ?? ""),
+        mapLinkHref: String(body.mapLinkHref ?? prev?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
+        mapEmbedSrc: String(body.mapEmbedSrc ?? prev?.mapEmbedSrc ?? ""),
+        mapTitle: String(body.mapTitle ?? prev?.mapTitle ?? DEFAULT_SITE.mapTitle),
       };
       fs.writeFileSync(p, JSON.stringify(extra, null, 2), "utf-8");
     } catch {}
 
-    const merged = { ...payload, homeHeroImageUrl: String(body.homeHeroImageUrl ?? DEFAULT_SITE.homeHeroImageUrl), homeAboutImageUrl: String(body.homeAboutImageUrl ?? DEFAULT_SITE.homeAboutImageUrl) };
+    const merged = {
+      ...payload,
+      homeHeroImageUrl: String(body.homeHeroImageUrl ?? DEFAULT_SITE.homeHeroImageUrl),
+      homeAboutImageUrl: String(body.homeAboutImageUrl ?? DEFAULT_SITE.homeAboutImageUrl),
+      instagramUrl: String(body.instagramUrl ?? ""),
+      facebookUrl: String(body.facebookUrl ?? ""),
+      mapLinkHref: String(body.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
+      mapEmbedSrc: String(body.mapEmbedSrc ?? ""),
+      mapTitle: String(body.mapTitle ?? DEFAULT_SITE.mapTitle),
+    };
     return NextResponse.json({ status: "ok", message: "Site settings updated", data: merged });
   } catch (err) {
     return NextResponse.json({ status: "error", message: "Invalid payload" }, { status: 400 });

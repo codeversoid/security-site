@@ -8,6 +8,8 @@ interface SiteConfig {
   address?: string;
   email?: string;
   phone?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
 }
 
 export default function Footer() {
@@ -93,7 +95,7 @@ export default function Footer() {
           <ul className="mt-2 flex items-center gap-3 wpsw-social-links">
             <li>
               <a
-                href="https://www.facebook.com/graha.y.muda"
+                href={site?.facebookUrl || "https://www.facebook.com/graha.y.muda"}
                 target="_self"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -104,7 +106,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://www.instagram.com/pt.lemosjayaperkasa4/"
+                href={site?.instagramUrl || "https://www.instagram.com/pt.lemosjayaperkasa4/"}
                 target="_self"
                 rel="noopener noreferrer"
                 aria-label="Instagram"

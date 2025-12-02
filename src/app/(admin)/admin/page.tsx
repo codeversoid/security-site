@@ -14,6 +14,11 @@ type SiteSettings = {
   whatsapp: string;
   homeHeroImageUrl?: string;
   homeAboutImageUrl?: string;
+  instagramUrl?: string;
+  facebookUrl?: string;
+  mapLinkHref?: string;
+  mapEmbedSrc?: string;
+  mapTitle?: string;
 };
 
 type NewsPost = { slug: string; title: string; excerpt: string; date: string; image: string; content?: string };
@@ -39,6 +44,8 @@ export default function AdminPage() {
   const [newsImageUploadStatus, setNewsImageUploadStatus] = useState<string | null>(null);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState<NewsPost | null>(null);
+  const [uploadingEditNewsImage, setUploadingEditNewsImage] = useState(false);
+  const [editNewsImageUploadStatus, setEditNewsImageUploadStatus] = useState<string | null>(null);
 
   const [gallery, setGallery] = useState<GalleryData | null>(null);
   const [savingGallery, setSavingGallery] = useState(false);
@@ -646,6 +653,53 @@ export default function AdminPage() {
                 {uploadingCompro && <p className="mt-2 text-xs text-muted-foreground">Mengunggah COMPRO...</p>}
                 {comproUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{comproUploadStatus}</p>}
               </div>
+
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Instagram URL</label>
+                <input
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  value={site.instagramUrl ?? ""}
+                  onChange={(e) => setSite({ ...site, instagramUrl: e.target.value })}
+                  placeholder="https://www.instagram.com/username"
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Facebook URL</label>
+                <input
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  value={site.facebookUrl ?? ""}
+                  onChange={(e) => setSite({ ...site, facebookUrl: e.target.value })}
+                  placeholder="https://www.facebook.com/page"
+                />
+              </div>
+
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Map Link (Google Maps)</label>
+                <input
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  value={site.mapLinkHref ?? ""}
+                  onChange={(e) => setSite({ ...site, mapLinkHref: e.target.value })}
+                  placeholder="https://maps.google.com/?q=Lokasi Kantor"
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Map Embed SRC (iframe)</label>
+                <input
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  value={site.mapEmbedSrc ?? ""}
+                  onChange={(e) => setSite({ ...site, mapEmbedSrc: e.target.value })}
+                  placeholder="https://www.google.com/maps/embed?pb=..."
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Map Title</label>
+                <input
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  value={site.mapTitle ?? ""}
+                  onChange={(e) => setSite({ ...site, mapTitle: e.target.value })}
+                  placeholder="Lokasi Kantor"
+                />
+              </div>
             </div>
           )}
         </CardContent>
@@ -754,6 +808,11 @@ export default function AdminPage() {
               />
               {uploadingNewsImage && <p className="mt-2 text-xs text-muted-foreground">Mengunggah gambar berita...</p>}
               {newsImageUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{newsImageUploadStatus}</p>}
+              {newPost.image && (
+                <div className="mt-3 rounded-lg border bg-card/30 p-2">
+                  <img src={newPost.image} alt="Preview gambar berita" className="h-24 w-auto rounded" />
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-3">
@@ -822,6 +881,41 @@ export default function AdminPage() {
                 <div className="col-span-12 md:col-span-6">
                   <label className="text-xs uppercase tracking-wider text-muted-foreground">Gambar (URL)</label>
                   <input className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm" value={editDraft.image} onChange={(e) => setEditDraft({ ...(editDraft as NewsPost), image: e.target.value })} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file || !editDraft) return;
+                      setUploadingEditNewsImage(true);
+                      setEditNewsImageUploadStatus(null);
+                      try {
+                        const compressed = await compressImage(file);
+                        const form = new FormData();
+                        form.append("file", compressed, nameWithType(file, compressed));
+                        form.append("bucket", "assets");
+                        form.append("folder", "news");
+                        const resp = await fetch("/api/upload", { method: "POST", body: form });
+                        const json = await resp.json().catch(() => ({}));
+                        if (!resp.ok || !json?.url) {
+                          setEditNewsImageUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
+                          return;
+                        }
+                        setEditDraft({ ...(editDraft as NewsPost), image: json.url });
+                        setEditNewsImageUploadStatus(`Gambar terupload (${formatCompression(file, compressed)})`);
+                      } finally {
+                        setUploadingEditNewsImage(false);
+                      }
+                    }}
+                  />
+                  {uploadingEditNewsImage && <p className="mt-2 text-xs text-muted-foreground">Mengunggah gambar berita...</p>}
+                  {editNewsImageUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{editNewsImageUploadStatus}</p>}
+                  {editDraft.image && (
+                    <div className="mt-3 rounded-lg border bg-card/30 p-2">
+                      <img src={editDraft.image} alt="Preview gambar berita" className="h-24 w-auto rounded" />
+                    </div>
+                  )}
                 </div>
                 {/* Konten dipindah ke atas, tepat setelah ringkasan */}
                 <div className="col-span-12">

@@ -2,8 +2,9 @@ import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseUrl, supabaseAnonKey } from "@/lib/supabase";
-import fs from "fs";
-import path from "path";
+
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 export async function GET(
   req: NextRequest,
@@ -49,45 +50,18 @@ export async function GET(
         image: String(data.image ?? "/news/news-01.svg"),
         content: typeof data.content === "string" ? data.content : "",
       };
+      console.log("api/news/id", idStr, post);
       return NextResponse.json(
         { status: "ok", data: { post } },
         { headers: {
-          "Cache-Control": "public, max-age=0, s-maxage=120, stale-while-revalidate=300",
-          "Vercel-CDN-Cache-Control": "public, s-maxage=120, stale-while-revalidate=300"
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Pragma": "no-cache"
         } }
       );
     }
 
-    // Fallback ke file JSON publik jika Supabase belum ada data
-    try {
-      const p = path.join(process.cwd(), "public", "data", "news.json");
-      const txt = fs.readFileSync(p, "utf-8");
-      const json = JSON.parse(txt);
-      const arr: any[] = Array.isArray(json?.posts) ? json.posts : [];
-      const found = arr.find((p: any) => String(p?.id) === idStr);
-      if (!found) {
-        return NextResponse.json({ status: "error", message: "Artikel tidak ditemukan" }, { status: 404 });
-      }
-      const post = {
-        id: String(found.id ?? idStr),
-        slug: String(found.slug ?? ""),
-        title: String(found.title ?? idStr),
-        excerpt: String(found.excerpt ?? ""),
-        date: String(found.date ?? ""),
-        image: String(found.image ?? "/news/news-01.svg"),
-        content: typeof found.content === "string" ? found.content : String(found.excerpt ?? ""),
-      };
-      return NextResponse.json(
-        { status: "ok", data: { post } },
-        { headers: {
-          "Cache-Control": "public, max-age=0, s-maxage=120, stale-while-revalidate=300",
-          "Vercel-CDN-Cache-Control": "public, s-maxage=120, stale-while-revalidate=300"
-        } }
-      );
-    } catch (e) {
-      return NextResponse.json({ status: "error", message: "Artikel tidak ditemukan" }, { status: 404 });
-    }
-  } catch (e: any) {
+    return NextResponse.json({ status: "error", message: "Artikel tidak ditemukan" }, { status: 404 });
+  } catch {
     return NextResponse.json({ status: "error", message: "Server error" }, { status: 500 });
   }
 }

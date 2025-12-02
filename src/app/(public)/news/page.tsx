@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import NewsGrid from "@/components/blocks/news/NewsGrid";
+import type { NewsPost } from "@/components/blocks/news/NewsCard";
 import NewsSidebar from "@/components/blocks/news/NewsSidebar";
 import NewsPagination from "@/components/blocks/news/NewsPagination";
 import { headers } from "next/headers";
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
   description: "Kumpulan berita, kegiatan, dan update operasional.",
 };
 
-export const revalidate = 60;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 async function getInitialPosts() {
   // Coba ambil dari API agar konsisten dengan Home
@@ -18,37 +20,26 @@ async function getInitialPosts() {
     const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000";
     const proto = h.get("x-forwarded-proto") || "http";
     const origin = `${proto}://${host}`;
-    const res = await fetch(`${origin}/api/news`, { next: { revalidate: 60 } });
+    const res = await fetch(`${origin}/api/news`, { cache: "no-store", next: { revalidate: 0 } });
     if (res.ok) {
       const json = await res.json();
-      const items: unknown = json?.data?.posts ?? json?.posts;
-      if (Array.isArray(items) && items.length > 0) return items as any[];
+      const items = Array.isArray(json?.data?.posts) ? (json.data.posts as NewsPost[]) : [];
+      if (items.length > 0) return items;
     }
   } catch {}
-  // Fallback: data statis
-  try {
-    const h = await headers();
-    const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000";
-    const proto = h.get("x-forwarded-proto") || "http";
-    const origin = `${proto}://${host}`;
-    const res2 = await fetch(`${origin}/data/news.json`, { cache: "force-cache", next: { revalidate: 300 } });
-    const json2 = await res2.json();
-    const arr: unknown = json2?.posts ?? [];
-    if (Array.isArray(arr) && arr.length > 0) return arr as any[];
-  } catch {}
-  return [] as any[];
+  return [] as NewsPost[];
 }
 
 export default async function NewsPage({ searchParams }: { searchParams?: Promise<{ page?: string; pageSize?: string }> }) {
   const sp = (await searchParams) ?? {};
   const rawPosts = await getInitialPosts();
-  const normalized = (Array.isArray(rawPosts) ? rawPosts : []).map((p: any) => ({
-    id: String(p?.id ?? ""),
-    slug: String(p?.slug ?? ""),
-    title: String(p?.title ?? ""),
-    excerpt: String(p?.excerpt ?? ""),
-    date: String(p?.date ?? ""),
-    image: String(p?.image ?? "/news/news-01.svg"),
+  const normalized: NewsPost[] = (Array.isArray(rawPosts) ? rawPosts : []).map((p) => ({
+    id: String((p as NewsPost).id ?? ""),
+    slug: String((p as NewsPost).slug ?? ""),
+    title: String((p as NewsPost).title ?? ""),
+    excerpt: String((p as NewsPost).excerpt ?? ""),
+    date: String((p as NewsPost).date ?? ""),
+    image: String((p as NewsPost).image ?? "/news/news-01.svg"),
   }));
   const sorted = normalized
     .slice()
@@ -70,7 +61,7 @@ export default async function NewsPage({ searchParams }: { searchParams?: Promis
       <section className="mx-auto max-w-[1200px] px-4 md:px-8 xl:px-12 pb-12 lg:pb-16">
         <div className="grid grid-cols-12 gap-6 md:gap-8">
           <div className="col-span-12 lg:col-span-9">
-            <NewsGrid initialPosts={sorted as any} page={page} pageSize={size} />
+            <NewsGrid initialPosts={sorted as NewsPost[]} page={page} pageSize={size} />
             <NewsPagination current={page} totalPages={totalPages} pageSize={size} />
           </div>
           <div className="col-span-12 lg:col-span-3">

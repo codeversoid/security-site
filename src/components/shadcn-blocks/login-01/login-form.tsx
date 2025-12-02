@@ -11,6 +11,8 @@ interface LoginFormProps extends React.ComponentProps<"form"> {
   onEmailChange: (email: string) => void;
   onPasswordChange: (password: string) => void;
   onSubmit: (e: FormEvent) => void;
+  onResetPassword?: (email: string) => void;
+  resetMessage?: string | null;
 }
 
 export function LoginForm({
@@ -22,6 +24,8 @@ export function LoginForm({
   onEmailChange,
   onPasswordChange,
   onSubmit,
+  onResetPassword,
+  resetMessage,
   ...props
 }: LoginFormProps) {
   return (
@@ -49,8 +53,19 @@ export function LoginForm({
           disabled={isLoading}
           required
         />
+        <div className="mt-1">
+          <button
+            type="button"
+            onClick={() => onResetPassword && onResetPassword(email)}
+            className="text-xs text-muted-foreground hover:text-accent"
+            disabled={isLoading}
+          >
+            Lupa password?
+          </button>
+        </div>
       </div>
       {error && <p className="text-sm text-red-600">{error}</p>}
+      {resetMessage && <p className="text-sm text-muted-foreground">{resetMessage}</p>}
       {success && <p className="text-sm text-green-600">Login berhasil</p>}
       <button
         type="submit"

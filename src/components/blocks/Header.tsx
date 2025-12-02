@@ -81,7 +81,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Button asChild size="sm" className="rounded-full">
+          <Button asChild variant="outline" size="sm" className="rounded-full active:bg-accent active:text-accent-foreground">
             <Link href={waHref} target="_blank" rel="noopener noreferrer">
               WhatsApp
             </Link>

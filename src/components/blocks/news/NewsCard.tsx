@@ -18,6 +18,7 @@ interface Props {
 }
 
 export default function NewsCard({ post, index = 0 }: Props) {
+  const href = post.id ? `/news/${post.id}` : "/news";
   return (
     <motion.article
       initial={{ opacity: 0, y: 16 }}
@@ -26,7 +27,7 @@ export default function NewsCard({ post, index = 0 }: Props) {
       transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.05 }}
       className="group relative overflow-hidden rounded-xl border bg-card/40 h-full"
     >
-      <Link prefetch href={`/news/${post.slug || post.id}`} className="flex h-full flex-col">
+      <Link prefetch={false} href={href} className="flex h-full flex-col">
         <div className="relative">
           <Image
             src={post.image}

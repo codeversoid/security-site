@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 export default function Hero() {
   const [heroUrl, setHeroUrl] = useState<string>("");
   const [heroReady, setHeroReady] = useState<boolean>(false);
+  const [site, setSite] = useState<{ whatsapp?: string } | null>(null);
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch("/api/site", { cache: "no-store" });
         const json = await res.json();
         const url = String(json?.data?.homeHeroImageUrl ?? "");
+        setSite(json?.data ?? null);
         if (url) {
           try {
             const head = await fetch(url, { method: "HEAD" });
@@ -31,6 +33,9 @@ export default function Hero() {
       } catch {}
     })();
   }, []);
+  const waHref = site?.whatsapp
+    ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Halo%2C%20saya%20ingin%20konsultasi%20layanan%20keamanan")}`
+    : "https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20konsultasi%20layanan%20keamanan";
   return (
     <section className="relative overflow-hidden">
       {/* Background image + overlay gradient */}
@@ -52,12 +57,8 @@ export default function Hero() {
               perusahaan Anda tetap aman, bersih, dan produktif.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-full">
-                <Link
-                  href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20konsultasi%20layanan%20keamanan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+              <Button asChild variant="outline" className="rounded-full active:bg-accent active:text-accent-foreground">
+                <Link href={waHref} target="_blank" rel="noopener noreferrer">
                   Konsultasi via WhatsApp
                 </Link>
               </Button>

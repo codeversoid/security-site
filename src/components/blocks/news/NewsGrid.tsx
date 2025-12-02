@@ -55,26 +55,6 @@ export default function NewsGrid({ className, initialPosts, page, pageSize }: Pr
           setPosts(sorted);
           return;
         }
-      } catch {}
-      // Fallback kedua: baca file statis jika API kosong
-      try {
-        const res2 = await fetch("/data/news.json", { cache: "no-store" });
-        const json2 = await res2.json();
-        const arr: any[] = Array.isArray(json2?.posts) ? json2.posts : [];
-        if (arr.length > 0) {
-          const mapped = arr.map((p) => ({
-            id: String(p.id ?? ""),
-            slug: String(p.slug ?? ""),
-            title: String(p.title ?? ""),
-            excerpt: String(p.excerpt ?? ""),
-            date: String(p.date ?? ""),
-            image: String(p.image ?? "/news/news-01.svg"),
-          }));
-          const sorted = mapped
-            .slice()
-            .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
-          setPosts(sorted);
-        }
       } catch {
         // keep current posts (initial or previous)
       }
