@@ -1,4 +1,9 @@
 {
   "homeHeroImageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/home/hero/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764225468817-gadautama.jpg",
-  "homeAboutImageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/home/about/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764225978841-gadautama2.jpg"
+  "homeAboutImageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/home/about/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764225978841-gadautama2.jpg",
+  "instagramUrl": "https://www.instagram.com/pt.lemosjayaperkasa86",
+  "facebookUrl": "",
+  "mapLinkHref": "https://www.google.com/maps/place/PT.+Lemos+Jaya+Perkasa/@-6.7899023,107.1675867,899m/data=!3m2!1e3!4b1!4m6!3m5!1s0x2e6853e506136c8d:0x75e32c39f1c27692!8m2!3d-6.7899023!4d107.1675867!16s%2Fg%2F11fn6mr1bn",
+  "mapEmbedSrc": "https://www.google.com/maps?q=-6.7899023,107.1675867&z=16&output=embed",
+  "mapTitle": "PT. Lemos Jaya Perkasa"
 }

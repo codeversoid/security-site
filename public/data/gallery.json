@@ -15,7 +15,7 @@
   ],
   "items": [
     {
-      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229018004-gadautama.jpg",
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764231019586-page29_img03.png",
       "alt": "diklat",
       "category": "diklat"
     },
@@ -50,9 +50,9 @@
       "category": "diklat"
     },
     {
-      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230801948-event4.png",
-      "alt": "event 4",
-      "category": "event"
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764229018004-gadautama.jpg",
+      "alt": "diklat",
+      "category": "diklat"
     },
     {
       "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230766504-event.png",
@@ -70,9 +70,9 @@
       "category": "event"
     },
     {
-      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764231019586-page29_img03.png",
-      "alt": "diklat",
-      "category": "diklat"
+      "src": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/gallery/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764230801948-event4.png",
+      "alt": "event 4",
+      "category": "event"
     }
   ]
 }

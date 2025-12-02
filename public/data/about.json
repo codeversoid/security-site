@@ -1,59 +1,59 @@
 {
   "directorName": "RAHMAT SALEH, SH",
   "directorTitle": "DIREKTUR",
-  "directorPhotoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/director/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317028922-DIREKTUR.png",
+  "directorPhotoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/director/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643121125-DIREKTUR.jpg",
   "directorMessage": "Terima kasih atas kepercayaan Anda. Kami berkomitmen menghadirkan layanan pengamanan yang profesional, responsif, dan terukur, serta pembinaan SDM untuk meningkatkan mutu layanan.",
   "aboutLogoUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/logo/05afc4c4-246a-4b84-8996-6b4a00579d4d-1762843967922-20._LOGO_LEMOS_JAYA_PERKASA-removebg-preview.png",
   "team": [
     {
       "name": "WAHYU JATI PERKASA",
       "role": "KOMISARIS",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317982893-KOMISASARIS.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643208104-KOMISARIS.jpg"
     },
     {
       "name": "RAHMAT SALEH, SH",
       "role": "DIREKTUR",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317097089-DIREKTUR.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643198409-DIREKTUR.jpg"
     },
     {
       "name": "DWI FURY SYARA",
       "role": "WAKIL DIREKTUR",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317764739-wkl.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643220757-wakil_DIREKTUR.jpg"
     },
     {
-      "name": "M RIKSA IMAM PRIADI",
+      "name": "EDI PURWANTO",
       "role": "ADVISOR",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317758246-advisor.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643768141-ADVISOR.jpg"
     },
     {
       "name": "RESA LESTARI",
-      "role": "MGR HRD",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317747824-hrd.png"
+      "role": "MNG HRD",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643775362-HRD.jpg"
     },
     {
       "name": "DEWI SITI MEGAWATI, SE",
       "role": "KEUANGAN",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317741087-megawa.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643783608-KEUANGAN.jpg"
     },
     {
       "name": "WAHYU HIDAYAT",
-      "role": "MGR OPERASIONAL",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317729655-mgr_ops.png"
+      "role": "MNG OPERASIONAL",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643945517-MNG_MARKETING.jpg"
     },
     {
-      "name": "M BAIHAKI ABDUL AZIZ",
-      "role": "MARKETING",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317716616-eki.png"
+      "name": "M BAIHAKI ABDUL AZIZ, ST",
+      "role": "MNG MARKETING",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643879792-MARKETING.jpg"
     },
     {
       "name": "J D SIMARMATA, SH",
       "role": "LEGAL",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317707473-legal.png"
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643888589-LEGAL.jpg"
     },
     {
       "name": "M,RIPAN RISWANDI",
-      "role": "TECHNICAL MANAGER",
-      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764317695839-tech_manager.png"
+      "role": "TECHNICAL MNG",
+      "imageUrl": "https://qncuvkaxslksfxnqwsjf.supabase.co/storage/v1/object/public/assets/about/team/05afc4c4-246a-4b84-8996-6b4a00579d4d-1764643894996-TTECHNICAL_MANAGER.jpg"
     }
   ],
   "partners": [
