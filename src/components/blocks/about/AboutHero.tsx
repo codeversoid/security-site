@@ -29,7 +29,7 @@ export default function AboutHero() {
     })();
   }, []);
 
-  const logo = about?.aboutLogoUrl || "/logo.svg";
+  const logo = (about?.aboutLogoUrl && about.aboutLogoUrl.trim()) || "/icons/shield.svg";
 
   return (
     <section className="relative overflow-hidden">

@@ -7,7 +7,7 @@ import path from "path";
 
 const DEFAULT_SITE = {
   siteName: "GardaSecurity",
-  logoUrl: "/logo.svg",
+  logoUrl: "/icons/shield.svg",
   faviconUrl: "/icons/shield.svg",
   address: "Jl. Contoh No. 123, Bandung",
   email: "admin@gardasecurity.co.id",
@@ -51,7 +51,8 @@ export async function GET() {
     return NextResponse.json({ status: "error", message: error.message }, { status: 500 });
   }
 
-  let payload: any = data ?? DEFAULT_SITE;
+  type SitePayload = typeof DEFAULT_SITE & Record<string, unknown>;
+  let payload: SitePayload = { ...DEFAULT_SITE, ...(data || {}) } as SitePayload;
 
   // Gabungkan tambahan dari file JSON publik
   try {

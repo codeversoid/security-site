@@ -33,13 +33,14 @@ async function getInitialPosts() {
 export default async function NewsPage({ searchParams }: { searchParams?: Promise<{ page?: string; pageSize?: string }> }) {
   const sp = (await searchParams) ?? {};
   const rawPosts = await getInitialPosts();
+  const cleanUrl = (u: unknown) => String(u ?? "").trim().replace(/^`+|`+$/g, "");
   const normalized: NewsPost[] = (Array.isArray(rawPosts) ? rawPosts : []).map((p) => ({
     id: String((p as NewsPost).id ?? ""),
     slug: String((p as NewsPost).slug ?? ""),
     title: String((p as NewsPost).title ?? ""),
     excerpt: String((p as NewsPost).excerpt ?? ""),
     date: String((p as NewsPost).date ?? ""),
-    image: String((p as NewsPost).image ?? "/news/news-01.svg"),
+    image: cleanUrl((p as NewsPost).image) || "/news/news-01.svg",
   }));
   const sorted = normalized
     .slice()

@@ -34,7 +34,7 @@ export default function TeamGrid() {
             <div className="group rounded-xl border bg-card/40 p-5 transition hover:shadow-lg hover:-translate-y-[1px]">
               <div className="h-24 w-24 rounded-full ring-1 ring-border bg-card/60 overflow-hidden">
                 {m.imageUrl ? (
-                  <Image src={m.imageUrl} alt={m.name} width={96} height={96} className="object-cover object-center" />
+                  <Image src={(m.imageUrl || "").trim()} alt={m.name} width={96} height={96} className="object-cover object-center" unoptimized />
                 ) : null}
               </div>
               <h3 className="mt-4 font-semibold tracking-tight">{m.name}</h3>

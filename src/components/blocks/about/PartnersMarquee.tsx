@@ -13,9 +13,14 @@ export default function PartnersMarquee() {
       try {
         const res = await fetch("/api/about", { cache: "no-store" });
         const json = await res.json();
-        const arr: any[] = Array.isArray(json?.data?.partners) ? json.data.partners : [];
+        const arr: unknown[] = Array.isArray(json?.data?.partners) ? json.data.partners : [];
         const normalized: Partner[] = arr
-          .map((p) => ({ name: typeof p?.name === "string" ? p.name : undefined, logoUrl: typeof p?.logoUrl === "string" ? p.logoUrl : undefined }))
+          .map((p) => {
+            const o = (p ?? {}) as Record<string, unknown>;
+            const name = typeof o["name"] === "string" ? (o["name"] as string) : undefined;
+            const logoUrl = typeof o["logoUrl"] === "string" ? (o["logoUrl"] as string) : undefined;
+            return { name, logoUrl } as Partner;
+          })
           .filter((p) => (p.name && p.name.trim()) || (p.logoUrl && p.logoUrl.trim()));
         setPartners(normalized);
       } catch {}
@@ -80,10 +85,10 @@ export default function PartnersMarquee() {
     return out;
   }, [lanes, useRandom]);
 
-  const Item = ({ p, i }: { p: Partner; i: number }) => (
+  const Item = ({ p }: { p: Partner }) => (
     <div className="shrink-0 opacity-80 hover:opacity-100 transition">
       {p.logoUrl ? (
-        <Image src={p.logoUrl} alt={p.name || "Logo mitra"} width={140} height={56} />
+        <Image src={(p.logoUrl || "").trim()} alt={p.name || "Logo mitra"} width={140} height={56} unoptimized />
       ) : (
         <div className="px-4 py-2 rounded-full border border-zinc-800 bg-card/40 text-sm font-medium transition hover:border-accent hover:text-accent hover:shadow-md">
           {p.name}
@@ -126,7 +131,7 @@ export default function PartnersMarquee() {
           transition={{ duration, ease: "linear", repeat: Infinity }}
         >
           {renderItems.map((p, i) => (
-            <Item key={`${p.logoUrl || p.name || 'no-id'}-${i}`} p={p} i={i} />
+            <Item key={`${p.logoUrl || p.name || 'no-id'}-${i}`} p={p} />
           ))}
         </motion.div>
       </div>

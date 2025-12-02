@@ -142,7 +142,7 @@ export default async function NewsDetailPage({ params }: Props) {
       </div>
       {imageUrl && (
         <div className="mb-8 overflow-hidden rounded-xl border">
-          <Image src={imageUrl} alt={post?.title ?? idParam} width={1200} height={600} className="h-64 w-full object-cover md:h-80 lg:h-96" />
+          <Image src={imageUrl} alt={post?.title ?? idParam} width={1200} height={600} className="h-64 w-full object-cover md:h-80 lg:h-96" unoptimized />
         </div>
       )}
       <article className="prose prose-zinc dark:prose-invert max-w-none">

@@ -8,7 +8,7 @@ import path from "path";
 
 const DEFAULT_SITE = {
   siteName: "GardaSecurity",
-  logoUrl: "/logo.svg",
+  logoUrl: "/icons/shield.svg",
   faviconUrl: "/icons/shield.svg",
   address: "Jl. Contoh No. 123, Bandung",
   email: "admin@gardasecurity.co.id",
@@ -79,6 +79,9 @@ export async function GET() {
     }
 
     const payload = { ...(data ?? DEFAULT_SITE), ...extra };
+    const rawLogo = String(payload.logoUrl ?? "").trim().replace(/[`'"\\]/g, "");
+    const safeLogo = !rawLogo || rawLogo === "/logo.svg" ? DEFAULT_SITE.logoUrl : rawLogo;
+    payload.logoUrl = safeLogo;
     return NextResponse.json(
       { status: "ok", data: payload },
       { headers: {

@@ -23,6 +23,7 @@ interface SiteConfig {
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [site, setSite] = useState<SiteConfig | null>(null);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -62,7 +63,21 @@ export default function Header() {
           className={`inline-flex items-center gap-2 font-semibold tracking-tight ${scrolled ? "text-foreground" : "text-black"}`}
         >
           {site?.logoUrl ? (
-            <Image src={site.logoUrl} alt={site.siteName ?? "Logo"} width={28} height={28} className="rounded-sm" />
+            <Image
+              src={(
+                logoError
+                  ? "/icons/shield.svg"
+                  : (String(site.logoUrl).trim().replace(/&amp;/g, "&").replace(/[`'"\\]/g, "") || "/icons/shield.svg").replace(/^\/logo\.svg$/, "/icons/shield.svg")
+              )}
+              alt={site.siteName ?? "Logo"}
+              width={28}
+              height={28}
+              className="rounded-sm"
+              unoptimized
+              referrerPolicy="no-referrer"
+              onError={() => setLogoError(true)}
+              priority
+            />
           ) : (
             <span className="inline-block h-6 w-6 rounded-sm bg-accent" />
           )}

@@ -19,6 +19,7 @@ interface Props {
 
 export default function NewsCard({ post, index = 0 }: Props) {
   const href = post.id ? `/news/${post.id}` : "/news";
+  const src = (post.image || "").trim().replace(/^`+|`+$/g, "") || "/news/news-01.svg";
   return (
     <motion.article
       initial={{ opacity: 0, y: 16 }}
@@ -30,7 +31,7 @@ export default function NewsCard({ post, index = 0 }: Props) {
       <Link prefetch={false} href={href} className="flex h-full flex-col">
         <div className="relative">
           <Image
-            src={post.image}
+            src={src}
             alt={post.title || "Berita"}
             width={800}
             height={600}
