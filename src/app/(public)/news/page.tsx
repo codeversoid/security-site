@@ -8,6 +8,7 @@ import { headers } from "next/headers";
 export const metadata: Metadata = {
   title: "Berita",
   description: "Kumpulan berita, kegiatan, dan update operasional.",
+  alternates: { canonical: "/news" },
 };
 
 export const revalidate = 0;

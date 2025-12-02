@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const nav = [
   { href: "/", label: "Home" },
@@ -24,6 +26,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [site, setSite] = useState<SiteConfig | null>(null);
   const [logoError, setLogoError] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -44,6 +48,29 @@ export default function Header() {
     })();
   }, []);
 
+  useEffect(() => {
+    void pathname;
+  }, [pathname]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  useEffect(() => {
+    try {
+      document.body.style.overflow = mobileOpen ? "hidden" : "";
+    } catch {}
+    return () => {
+      try {
+        document.body.style.overflow = "";
+      } catch {}
+    };
+  }, [mobileOpen]);
+
   const waHref = site?.whatsapp
     ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Halo Admin, saya ingin bertanya layanan.")}`
     : "https://wa.me/6281234567890?text=Halo%20Admin%2C%20saya%20ingin%20bertanya%20layanan.";
@@ -52,7 +79,11 @@ export default function Header() {
     <header
       className={
         `sticky top-0 z-50 transition-colors ${
-          scrolled ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm" : "bg-transparent"
+          mobileOpen
+            ? "bg-background border-b border-border shadow-sm"
+            : scrolled
+            ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
+            : "bg-transparent"
         }`
       }
     >
@@ -101,8 +132,47 @@ export default function Header() {
               WhatsApp
             </Link>
           </Button>
+          <button
+            type="button"
+            aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md border bg-background md:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[60] md:hidden">
+          <button
+            type="button"
+            aria-label="Tutup"
+            className="absolute inset-0 bg-black/60"
+            onClick={() => setMobileOpen(false)}
+          />
+          <div className="absolute right-0 top-0 h-full w-4/5 max-w-xs border-l bg-background shadow-xl overflow-y-auto">
+            <div className="flex items-center justify-between px-4 py-3">
+              <span className="font-semibold tracking-tight">Menu</span>
+              <button type="button" aria-label="Tutup" className="inline-flex h-8 w-8 items-center justify-center rounded-md border" onClick={() => setMobileOpen(false)}>
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <nav className="px-2 py-2">
+              {nav.map((item) => (
+                <Link
+                  key={`m-${item.href}`}
+                  href={item.href}
+                  prefetch
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-lg px-3 py-2 text-base font-medium text-foreground hover:bg-accent hover:text-accent-foreground"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

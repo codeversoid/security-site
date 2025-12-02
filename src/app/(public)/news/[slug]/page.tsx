@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { headers } from "next/headers";
 import { getSupabaseClient } from "@/lib/supabase";
+import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -152,4 +153,29 @@ export default async function NewsDetailPage({ params }: Props) {
       </article>
     </main>
   );
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const idParam = String(slug || "");
+  const h = await headers();
+  const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000";
+  const proto = h.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
+  const origin = `${proto}://${host}`;
+  const post = await getPostById(idParam);
+  const title = (post?.title && post.title.trim()) ? post.title : (post?.slug || idParam);
+  const description = (post?.excerpt && post.excerpt.trim()) ? post.excerpt : "Artikel berita perusahaan";
+  const img = ((post?.image ?? "/news/news-01.svg") as string).replace(/[`'\"]/g, "").trim();
+  return {
+    title,
+    description,
+    alternates: { canonical: `${origin}/news/${idParam}` },
+    openGraph: {
+      type: "article",
+      url: `${origin}/news/${idParam}`,
+      title,
+      description,
+      images: [{ url: img }],
+    },
+  };
 }
