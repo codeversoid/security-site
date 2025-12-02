@@ -8,6 +8,7 @@ import path from "path";
 const DEFAULT_SITE = {
   siteName: "GardaSecurity",
   logoUrl: "/logo.svg",
+  faviconUrl: "/icons/shield.svg",
   address: "Jl. Contoh No. 123, Bandung",
   email: "admin@gardasecurity.co.id",
   phone: "+62 812-3456-7890",
@@ -66,6 +67,7 @@ export async function GET() {
       mapLinkHref: String(json?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
       mapEmbedSrc: String(json?.mapEmbedSrc ?? ""),
       mapTitle: String(json?.mapTitle ?? DEFAULT_SITE.mapTitle),
+      faviconUrl: String(json?.faviconUrl ?? DEFAULT_SITE.faviconUrl),
     };
   } catch {}
 
@@ -105,6 +107,7 @@ export async function POST(req: Request) {
     const payload = {
       siteName: String(body.siteName ?? DEFAULT_SITE.siteName),
       logoUrl: String(body.logoUrl ?? DEFAULT_SITE.logoUrl),
+      // faviconUrl disimpan di file publik agar tidak perlu skema DB baru
       address: String(body.address ?? DEFAULT_SITE.address),
       email: String(body.email ?? DEFAULT_SITE.email),
       phone: String(body.phone ?? DEFAULT_SITE.phone),
@@ -128,6 +131,7 @@ export async function POST(req: Request) {
         mapLinkHref: String(body.mapLinkHref ?? prev?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
         mapEmbedSrc: String(body.mapEmbedSrc ?? prev?.mapEmbedSrc ?? ""),
         mapTitle: String(body.mapTitle ?? prev?.mapTitle ?? DEFAULT_SITE.mapTitle),
+        faviconUrl: String(body.faviconUrl ?? prev?.faviconUrl ?? DEFAULT_SITE.faviconUrl),
       };
       fs.writeFileSync(p, JSON.stringify(extra, null, 2), "utf-8");
     } catch {}
@@ -141,6 +145,7 @@ export async function POST(req: Request) {
       mapLinkHref: String(body.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
       mapEmbedSrc: String(body.mapEmbedSrc ?? ""),
       mapTitle: String(body.mapTitle ?? DEFAULT_SITE.mapTitle),
+      faviconUrl: String(body.faviconUrl ?? DEFAULT_SITE.faviconUrl),
     };
     return NextResponse.json({ status: "ok", message: "Site settings updated", data: merged });
   } catch (err) {

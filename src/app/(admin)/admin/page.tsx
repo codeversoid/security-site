@@ -7,6 +7,7 @@ import Compressor from "compressorjs";
 type SiteSettings = {
   siteName: string;
   logoUrl: string;
+  faviconUrl?: string;
   address: string;
   email: string;
   phone: string;
@@ -475,6 +476,63 @@ export default function AdminPage() {
                 />
                 {uploadingLogo && <p className="mt-2 text-xs text-muted-foreground">Mengunggah logo...</p>}
                 {siteUploadStatus && <p className="mt-2 text-xs text-muted-foreground">{siteUploadStatus}</p>}
+              </div>
+              <div className="col-span-12 md:col-span-6">
+                <label className="text-xs uppercase tracking-wider text-muted-foreground">Favicon URL</label>
+                <input className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm" value={site.faviconUrl ?? ""} onChange={(e) => setSite({ ...site, faviconUrl: e.target.value })} placeholder="https://.../favicon.svg" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="mt-2 w-full rounded-lg border bg-card/30 px-3 py-2 text-sm"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file || !site) return;
+                    setUploadingLogo(true);
+                    setSiteUploadStatus(null);
+                    try {
+                      const compressed = await compressImage(file);
+                      const form = new FormData();
+                      form.append("file", compressed, nameWithType(file, compressed));
+                      form.append("bucket", "assets");
+                      form.append("folder", "icons");
+                      const resp = await fetch("/api/upload", { method: "POST", body: form });
+                      const json = await resp.json().catch(() => ({}));
+                      if (!resp.ok || !json?.url) {
+                        setSiteUploadStatus(`Gagal upload${json?.message ? ": " + json.message : ""}`);
+                        return;
+                      }
+                      setSite({ ...site, faviconUrl: json.url });
+                      setSiteUploadStatus(`Favicon terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), menyimpan...`);
+                      try {
+                        await fetch("/api/admin/site", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ ...site, faviconUrl: json.url }),
+                        });
+                      } catch {}
+                      if (json?.path) {
+                        try {
+                          const cleanResp = await fetch("/api/storage", {
+                            method: "DELETE",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ bucket: "assets", folder: "icons", keepPath: json.path }),
+                          });
+                          const cleanJson = await cleanResp.json().catch(() => ({}));
+                          if (!cleanResp.ok) {
+                            setSiteUploadStatus(`Favicon terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), tapi gagal bersihkan: ${cleanJson?.message || "unknown"}`);
+                          } else {
+                            const removedCount = Array.isArray(cleanJson?.removed) ? cleanJson.removed.length : 0;
+                            setSiteUploadStatus(removedCount > 0 ? `Favicon terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), ${removedCount} file lama dihapus` : `Favicon terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"})`);
+                          }
+                        } catch {
+                          setSiteUploadStatus(`Favicon terupload (${formatCompression(file, compressed)}; path: ${json.path || "-"}), gagal membersihkan file lama`);
+                        }
+                      }
+                    } finally {
+                      setUploadingLogo(false);
+                    }
+                  }}
+                />
               </div>
               {/* Gambar Hero Home */}
               <div className="col-span-12 md:col-span-6">

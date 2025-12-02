@@ -9,6 +9,7 @@ import path from "path";
 const DEFAULT_SITE = {
   siteName: "GardaSecurity",
   logoUrl: "/logo.svg",
+  faviconUrl: "/icons/shield.svg",
   address: "Jl. Contoh No. 123, Bandung",
   email: "admin@gardasecurity.co.id",
   phone: "+62 812-3456-7890",
@@ -62,6 +63,7 @@ export async function GET() {
         mapLinkHref: String(json?.mapLinkHref ?? DEFAULT_SITE.mapLinkHref),
         mapEmbedSrc: String(json?.mapEmbedSrc ?? ""),
         mapTitle: String(json?.mapTitle ?? DEFAULT_SITE.mapTitle),
+        faviconUrl: String(json?.faviconUrl ?? DEFAULT_SITE.faviconUrl),
       };
     } catch {}
 

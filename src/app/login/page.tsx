@@ -23,7 +23,9 @@ function LoginPageInner() {
 
   useEffect(() => {
     if (success) {
-      router.push(redirect);
+      setTimeout(() => {
+        router.push(redirect);
+      }, 800);
     }
   }, [success, router, redirect]);
 
