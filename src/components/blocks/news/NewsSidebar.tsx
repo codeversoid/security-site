@@ -15,9 +15,10 @@ export default function NewsSidebar() {
         const res = await fetch("/api/news", { cache: "no-store" });
         const json = await res.json();
         const items: Post[] = Array.isArray(json?.data?.posts) ? (json.data.posts as Post[]) : [];
+        const getTime = (d?: string) => (d ? new Date(d).getTime() : 0);
         const sorted = items
           .slice()
-          .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
+          .sort((a, b) => getTime(b.date) - getTime(a.date));
         setRecent(sorted.slice(0, 5).map((p) => ({ id: p.id, slug: p.slug, title: p.title, date: p.date })));
       } catch {}
       try {
