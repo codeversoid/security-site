@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Security Site — Instalasi & Fitur
 
-## Getting Started
+Proyek web perusahaan jasa keamanan dengan halaman publik, admin dashboard, integrasi Supabase untuk data (berita, galeri, konfigurasi situs), serta autentikasi login.
 
-First, run the development server:
+## Stack
+- Next.js `16` + React `19`
+- Supabase (Auth, Database, Storage)
+- Tailwind CSS `v4`
+- Framer Motion untuk animasi ringan
+- ESLint, Prettier, TypeScript
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Fitur Utama
+- Halaman publik:
+  - Home, Tentang, Layanan, Diklat, Galeri, Berita, Kontak
+  - Timeline “Perjalanan” dengan detail tiap tahun
+  - Galeri dengan kategori dan lightbox
+  - Diklat dengan schema FAQ SEO
+- Berita:
+  - Listing dari Supabase
+  - Detail ID-only (`/news/{id}`) untuk akurasi konten
+- Admin dashboard (`/admin`):
+  - Login/Logout (Supabase Auth), dukung “Lupa password”
+  - Kelola Site Settings (nama situs, logo, alamat, email, WA, brochure URL)
+  - Kelola About (director message, logo, tim, partner)
+  - Kelola Galeri (kategori, item)
+  - Kelola Berita (judul, ringkasan, gambar, konten)
+  - Upload ke Supabase Storage via API
+- Middleware proteksi admin dengan redirect ke login
+- SEO basic (open graph & twitter)
+
+## Persyaratan
+- Node.js `>=18`
+- Akun & proyek Supabase
+
+## Environment
+Buat file `.env.local` di root:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_ANON_KEY
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variabel dibaca oleh helper Supabase: `src/lib/supabase.ts:1-11`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase Setup
+1) Auth
+- Aktifkan Email provider untuk reset password.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2) Storage
+- Buat bucket `assets` (Public) untuk gambar.
+- Struktur folder (contoh): `assets/news/...`, `assets/gallery/...`.
 
-## Learn More
+3) Database Tables (SQL contoh)
 
-To learn more about Next.js, take a look at the following resources:
+Site settings (1 baris id=1):
+```sql
+create table if not exists public.site_settings (
+  id int primary key default 1,
+  siteName text,
+  logoUrl text,
+  address text,
+  email text,
+  phone text,
+  comproUrl text,
+  whatsapp text
+);
+insert into public.site_settings (id, siteName) values (1, 'GardaSecurity')
+on conflict (id) do nothing;
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+About settings:
+```sql
+create table if not exists public.about_settings (
+  id int primary key default 1,
+  directorName text,
+  directorTitle text,
+  directorPhotoUrl text,
+  directorMessage text,
+  aboutLogoUrl text,
+  team jsonb,
+  partners jsonb
+);
+insert into public.about_settings (id) values (1)
+on conflict (id) do nothing;
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+News posts (ID-only routing):
+```sql
+create extension if not exists pgcrypto;
+create table if not exists public.news_posts (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique,
+  title text,
+  excerpt text,
+  date timestamptz,
+  image text,
+  content text
+);
+create index if not exists idx_news_date on public.news_posts(date desc);
+```
 
-## Deploy on Vercel
+Gallery:
+```sql
+create table if not exists public.gallery_categories (
+  id text primary key,
+  name text
+);
+create table if not exists public.gallery_items (
+  src text primary key,
+  alt text,
+  category text references public.gallery_categories(id)
+);
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Menjalankan
+- Instal deps: `npm install`
+- Dev: `npm run dev` → buka `http://localhost:3000`
+- Lint: `npm run lint`
+- Typecheck: `npm run typecheck`
+- Build: `npm run build`
+- Start (prod): `npm run start`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Rute Penting
+- Publik:
+  - `/` Home
+  - `/about` Tentang
+  - `/services` Layanan
+  - `/training` Diklat
+  - `/gallery` Galeri
+  - `/news` Berita (daftar)
+  - `/news/{id}` Detail berita ID-only
+  - `/contact` Kontak
+  - `/download/compro` Unduh brochure (redirect sesuai `site_settings`)
+- Admin:
+  - `/admin` Dashboard (butuh login)
+  - API publik/admin:
+    - Site: `GET /api/site`, Admin: `GET/POST /api/admin/site`
+    - About: `GET /api/about`, Admin: `GET/POST /api/admin/about`
+    - News: `GET /api/news`, `GET /api/news/id/{id}`, `GET /api/news/{slug}` (opsional)
+      Admin list: `GET /api/admin/news`
+    - Galeri: `GET /api/gallery`, Admin: `GET/POST /api/admin/gallery`
+    - Upload: `POST /api/upload` (auth wajib)
+    - Storage cleanup: `DELETE /api/storage` (auth wajib)
+    - Login: `POST /api/login`, Logout: `POST /api/logout`
+
+Middleware proteksi admin: `src/middleware.ts:1-40`.
+
+## Alur Login & Reset Password
+- Login halaman: `/login`
+- Lupa password: kirim tautan reset; setelah klik email, halaman login beralih ke mode pemulihan untuk ganti password.
+
+## Catatan Berita (ID-only)
+- Tautan kartu & sidebar menuju `/news/{id}`.
+- Detail memuat berdasarkan `id` terlebih dulu, fallback slug jika diperlukan.
+- Pastikan kolom `content` atau `excerpt` terisi; jika keduanya kosong, halaman menampilkan “Konten belum tersedia”.
+
+## Tips & Troubleshooting
+- Gambar 404: cek bucket `assets` dan path, pastikan public.
+- Env hilang: helper akan melempar error — pastikan `.env.local` terisi.
+- Admin redirect ke login: itu normal jika belum ada sesi Supabase.
+
+## Lisensi
+Internal project.
