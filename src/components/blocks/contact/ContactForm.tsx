@@ -34,13 +34,15 @@ export default function ContactForm() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: FormValues) => {
+    setStatus("idle");
+    const to = "pt.lemosjayaperkasa@gmail.com";
+    const bodyText = `Nama: ${data.name}\nEmail: ${data.email}\nTelp: ${data.phone}\n\n${data.message}`;
+    const href = `mailto:${to}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(bodyText)}`;
     try {
-      // Simulasi submit; integrasikan ke API saat siap
-      setStatus("idle");
-      await new Promise((r) => setTimeout(r, 900));
+      window.open(href, "_self");
       setStatus("success");
       reset();
-    } catch (e) {
+    } catch {
       setStatus("error");
     }
   };

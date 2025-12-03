@@ -5,10 +5,26 @@ import { motion } from "framer-motion";
 export default function HelpForm() {
   const [submitted, setSubmitted] = useState(false);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    const form = e.currentTarget as HTMLFormElement;
+    const fd = new FormData(form);
+    const name = String(fd.get("name") || "").trim();
+    const email = String(fd.get("email") || "").trim();
+    const question = String(fd.get("question") || "").trim();
+    const location = String(fd.get("location") || "").trim();
+    const job = String(fd.get("job") || "").trim();
+    const msg = String(fd.get("message") || "").trim();
+    const subject = question ? `Pertanyaan: ${question}` : "Pertanyaan";
+    const to = "pt.lemosjayaperkasa@gmail.com";
+    const bodyText = `Nama: ${name}\nEmail: ${email}\n\n${msg}\n\nLokasi: ${location || "-"}\nPekerjaan: ${job || "-"}`;
+    const href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    try {
+      window.open(href, "_self");
+      setSubmitted(true);
+      form.reset();
+      setTimeout(() => setSubmitted(false), 3000);
+    } catch {}
   };
 
   return (
@@ -51,6 +67,7 @@ export default function HelpForm() {
                 <input
                   type="text"
                   required
+                  name="name"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
@@ -59,6 +76,7 @@ export default function HelpForm() {
                 <input
                   type="email"
                   required
+                  name="email"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
@@ -66,6 +84,7 @@ export default function HelpForm() {
                 <label className="block text-xs font-medium text-muted-foreground">Alamat / Lokasi</label>
                 <input
                   type="text"
+                  name="location"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
@@ -73,6 +92,7 @@ export default function HelpForm() {
                 <label className="block text-xs font-medium text-muted-foreground">Pekerjaan</label>
                 <input
                   type="text"
+                  name="job"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
@@ -81,6 +101,7 @@ export default function HelpForm() {
                 <input
                   type="text"
                   required
+                  name="question"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>
@@ -88,6 +109,7 @@ export default function HelpForm() {
                 <label className="block text-xs font-medium text-muted-foreground">Pesan</label>
                 <textarea
                   rows={4}
+                  name="message"
                   className="mt-2 w-full rounded-lg border border-zinc-800 bg-card/30 px-3 py-2 text-sm outline-none transition focus:border-accent"
                 />
               </div>

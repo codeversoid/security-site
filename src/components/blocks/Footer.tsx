@@ -98,28 +98,32 @@ export default function Footer() {
           </ul>
           <h3 className="mt-6 text-sm font-semibold">Media Sosial</h3>
           <ul className="mt-2 flex items-center gap-3 wpsw-social-links">
-            <li>
-              <a
-                href={site?.facebookUrl || "https://www.facebook.com/graha.y.muda"}
-                target="_self"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
-              >
-                <Facebook className="size-4" />
-              </a>
-            </li>
-            <li>
-              <a
-                href={site?.instagramUrl || "https://www.instagram.com/pt.lemosjayaperkasa4/"}
-                target="_self"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
-              >
-                <Instagram className="size-4" />
-              </a>
-            </li>
+            {site?.facebookUrl && (
+              <li>
+                <a
+                  href={site.facebookUrl}
+                  target="_self"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
+                >
+                  <Facebook className="size-4" />
+                </a>
+              </li>
+            )}
+            {site?.instagramUrl && (
+              <li>
+                <a
+                  href={site.instagramUrl}
+                  target="_self"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="group inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 text-zinc-400 transition hover:border-accent hover:text-accent"
+                >
+                  <Instagram className="size-4" />
+                </a>
+              </li>
+            )}
           </ul>
           <p className="mt-4 text-xs text-muted-foreground">© {new Date().getFullYear()} {site?.siteName ?? "GardaSecurity"}. All rights reserved.</p>
         </div>
