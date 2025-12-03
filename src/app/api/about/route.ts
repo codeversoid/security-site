@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseUrl, supabaseAnonKey } from "@/lib/supabase";
-import fs from "fs";
-import path from "path";
 
 const DEFAULT = {
   directorName: "",
@@ -47,21 +45,6 @@ export async function GET() {
         team: Array.isArray((data as any).team) ? (data as any).team : [],
         partners: Array.isArray((data as any).partners) ? (data as any).partners : [],
       };
-    } else {
-      try {
-        const p = path.join(process.cwd(), "public", "data", "about.json");
-        const txt = fs.readFileSync(p, "utf-8");
-        const json = JSON.parse(txt);
-        payload = {
-          directorName: String(json?.directorName ?? ""),
-          directorTitle: String(json?.directorTitle ?? ""),
-          directorPhotoUrl: String(json?.directorPhotoUrl ?? ""),
-          directorMessage: String(json?.directorMessage ?? ""),
-          aboutLogoUrl: String(json?.aboutLogoUrl ?? ""),
-          team: Array.isArray(json?.team) ? json.team : [],
-          partners: Array.isArray(json?.partners) ? json.partners : [],
-        };
-      } catch {}
     }
     return NextResponse.json(
       { status: "ok", data: payload ?? DEFAULT },

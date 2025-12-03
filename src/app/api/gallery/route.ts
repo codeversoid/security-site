@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseUrl, supabaseAnonKey } from "@/lib/supabase";
-import fs from "fs";
-import path from "path";
 
 export async function GET() {
   try {
@@ -57,36 +55,6 @@ export async function GET() {
         } }
       );
     }
-  } catch {}
-
-  // Fallback ke file JSON publik
-  try {
-    const p = path.join(process.cwd(), "public", "data", "gallery.json");
-    const txt = fs.readFileSync(p, "utf-8");
-    const json = JSON.parse(txt);
-    const cats = Array.isArray(json?.categories) ? json.categories : [];
-    const its = Array.isArray(json?.items) ? json.items : [];
-    const normCats = cats.map((c: any) => ({ id: String(c.id ?? ""), name: String(c.name ?? "") }));
-    const seen = new Set<string>();
-    const normItems = its
-      .map((it: any) => ({
-        src: String(it.src ?? ""),
-        alt: (String(it.alt ?? "").trim() || "Gambar galeri"),
-        category: String(it.category ?? ""),
-      }))
-      .filter((it: { src: string; alt: string; category: string }) => {
-        const k = it.src;
-        if (seen.has(k)) return false;
-        seen.add(k);
-        return true;
-      });
-    return NextResponse.json(
-      { status: "ok", data: { categories: normCats, items: normItems } },
-      { headers: {
-        "Cache-Control": "public, max-age=0, s-maxage=300, stale-while-revalidate=600",
-        "Vercel-CDN-Cache-Control": "public, s-maxage=300, stale-while-revalidate=600"
-      } }
-    );
   } catch {}
 
   return NextResponse.json(

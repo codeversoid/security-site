@@ -80,22 +80,6 @@ export async function POST(req: Request) {
     if (insRes.error) {
       return NextResponse.json({ status: "error", message: insRes.error.message }, { status: 500 });
     }
-    // Tulis fallback ke public/data/news.json agar halaman publik tetap menampilkan konten
-    try {
-      const fs = await import("fs");
-      const path = await import("path");
-      const filePath = path.join(process.cwd(), "public", "data", "news.json");
-      const clean = posts.map((p: any) => ({
-        slug: p.slug,
-        title: p.title,
-        excerpt: p.excerpt,
-        date: p.date,
-        image: String(p.image || "").replace(/[`'"\\]/g, "").trim() || "/news/news-01.svg",
-        content: typeof p.content === "string" ? p.content : undefined,
-      }));
-      const payload = JSON.stringify({ posts: clean }, null, 2);
-      fs.writeFileSync(filePath, payload, "utf-8");
-    } catch {}
 
     return NextResponse.json({ status: "ok", message: "News updated", data: { posts } });
   } catch (err) {

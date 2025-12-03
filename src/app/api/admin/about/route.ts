@@ -2,8 +2,6 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseUrl, supabaseAnonKey } from "@/lib/supabase";
-import fs from "fs";
-import path from "path";
 
 export async function GET() {
   const cookieStore = await cookies();
@@ -25,25 +23,18 @@ export async function GET() {
     return NextResponse.json({ status: "error", message: "Unauthorized" }, { status: 401 });
   }
 
-  // Reuse logic in public GET by reading file if DB empty
   try {
     const { data, error } = await supabase
       .from("about_settings")
       .select("directorName,directorTitle,directorPhotoUrl,directorMessage,aboutLogoUrl,team,partners")
       .eq("id", 1)
       .maybeSingle();
-    if (!error && data) {
-      return NextResponse.json({ status: "ok", data });
+    if (error) {
+      return NextResponse.json({ status: "error", message: error.message }, { status: 500 });
     }
-  } catch {}
-
-  try {
-    const p = path.join(process.cwd(), "public", "data", "about.json");
-    const txt = fs.readFileSync(p, "utf-8");
-    const json = JSON.parse(txt);
-    return NextResponse.json({ status: "ok", data: json });
+    return NextResponse.json({ status: "ok", data: data || {} });
   } catch {
-    return NextResponse.json({ status: "ok", data: {} });
+    return NextResponse.json({ status: "error", message: "Server error" }, { status: 500 });
   }
 }
 
@@ -79,19 +70,14 @@ export async function POST(req: Request) {
       partners: Array.isArray(body?.partners) ? body.partners : [],
     };
 
-    // Upsert ke Supabase jika tabel tersedia
     try {
       const { error } = await supabase.from("about_settings").upsert({ id: 1, ...payload });
       if (error) {
-        // lanjut tulis file meski DB gagal
+        return NextResponse.json({ status: "error", message: error.message }, { status: 500 });
       }
-    } catch {}
-
-    // Simpan juga ke file JSON sebagai fallback
-    try {
-      const p = path.join(process.cwd(), "public", "data", "about.json");
-      fs.writeFileSync(p, JSON.stringify(payload, null, 2), "utf-8");
-    } catch {}
+    } catch {
+      return NextResponse.json({ status: "error", message: "Server error" }, { status: 500 });
+    }
 
     return NextResponse.json({ status: "ok", data: payload });
   } catch (e) {

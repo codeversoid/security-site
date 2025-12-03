@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 
 const steps = [
   {
-    year: "2015",
+    year: "2018",
     title: "Fondasi Operasional",
     text: "Mulai operasional dan pengembangan SOP pengamanan.",
     points: ["Pembentukan struktur organisasi", "Penyusunan SOP & standar layanan", "Rekrutmen awal & pelatihan dasar"],
   },
   {
-    year: "2018",
+    year: "2020",
     title: "Digitalisasi",
     text: "Integrasi sistem teknologi monitoring dan laporan digital.",
     points: ["Dashboard monitoring", "Pelaporan insiden terpusat", "Penyelarasan workflow digital"],
@@ -21,7 +21,7 @@ const steps = [
     points: ["Penambahan sektor industri", "Peningkatan kapasitas personil", "Penguatan manajemen mutu"],
   },
   {
-    year: "2024",
+    year: "2023",
     title: "Peningkatan Mutu",
     text: "Pembinaan berkelanjutan dan peningkatan mutu layanan.",
     points: ["Program upskilling berkelanjutan", "Audit mutu internal berkala", "Kemitraan strategis"],

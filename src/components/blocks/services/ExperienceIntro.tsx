@@ -12,9 +12,9 @@ export default function ExperienceIntro() {
         className="rounded-xl border bg-card/40 p-6 space-y-3"
       >
         <h2 className="text-xl font-semibold tracking-tight">Pengalaman Kami</h2>
-        <h3 className="text-lg font-semibold">Hadir Sejak Tahun 2015</h3>
+        <h3 className="text-lg font-semibold">Hadir Sejak Tahun 2018</h3>
         <p className="text-sm text-muted-foreground max-w-4xl">
-          PT. Lemos Jaya Perkasa berpengalaman sejak 2015 dalam penyediaan jasa pengamanan, dengan
+          PT. Lemos Jaya Perkasa berpengalaman sejak 2018 dalam penyediaan jasa pengamanan, dengan
           pembinaan SDM berstandar dan sistem kerja terintegrasi. Kami berkomitmen menjaga mutu
           layanan di berbagai sektor melalui rekrutmen selektif, pelatihan berkelanjutan, dan
           pengawasan rutin.

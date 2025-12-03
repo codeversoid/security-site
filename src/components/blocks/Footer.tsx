@@ -8,6 +8,7 @@ interface SiteConfig {
   address?: string;
   email?: string;
   phone?: string;
+  whatsapp?: string;
   instagramUrl?: string;
   facebookUrl?: string;
 }
@@ -28,13 +29,17 @@ export default function Footer() {
     })();
   }, []);
 
+  const phone = String(site?.phone ?? "").trim();
+  const wa = String(site?.whatsapp ?? "").trim();
+  const telpOrWa = wa ? `+${wa}` : phone || "-";
+
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch("/api/news?limit=4", { cache: "force-cache" });
         const json = await res.json();
-        const posts = Array.isArray(json?.data?.posts) ? json.data.posts : [];
-        const top4 = posts.slice(0, 4).map((p: any) => ({
+        const posts: { slug?: string; title?: string }[] = Array.isArray(json?.data?.posts) ? json.data.posts : [];
+        const top4 = posts.slice(0, 4).map((p) => ({
           slug: String(p.slug || ""),
           title: String(p.title || ""),
         }));
@@ -56,7 +61,7 @@ export default function Footer() {
           <p className="mt-3 text-sm">
             {site?.address ?? "Jl. Contoh No. 123, Jakarta Pusat 10110"}
             <br />
-            Telp/WA: {site?.phone ?? "0812-3456-7890"}
+            Telp/WA: {telpOrWa}
             <br />
             Email: {site?.email ?? "info@contoh-security.id"}
           </p>
