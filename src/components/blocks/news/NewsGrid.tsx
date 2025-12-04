@@ -62,7 +62,7 @@ export default function NewsGrid({ className, initialPosts, page, pageSize }: Pr
   }, []);
 
   const currentPage = typeof page === "number" && page > 0 ? page : 1;
-  const size = typeof pageSize === "number" && pageSize > 0 ? pageSize : 9;
+  const size = typeof pageSize === "number" && pageSize > 0 ? pageSize : 12;
   const start = (currentPage - 1) * size;
   const visible = posts.slice(start, start + size);
 

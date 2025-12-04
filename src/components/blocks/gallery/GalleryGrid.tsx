@@ -30,10 +30,11 @@ export default function GalleryGrid() {
   const [tab, setTab] = useState<string>(fallbackCategories[0].id);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
-  const ITEMS_PER_PAGE = 12;
+  const ITEMS_PER_PAGE = 16;
   const [currentPage, setCurrentPage] = useState(1);
-  const SLIDE_SIZE = 8;
+  const SLIDE_SIZE = 16;
   const [currentSlide, setCurrentSlide] = useState(0);
+  const AUTO_INTERVAL_MS = 4000;
 
   useEffect(() => {
     (async () => {
@@ -80,6 +81,15 @@ export default function GalleryGrid() {
   const startIdx = (currentPageClamped - 1) * ITEMS_PER_PAGE;
   const paged = useMemo(() => filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE), [filtered, startIdx]);
   const currentSlideClamped = useMemo(() => Math.min(currentSlide, Math.max(0, semuaSlides.length - 1)), [currentSlide, semuaSlides.length]);
+  useEffect(() => {
+    if (tab !== "semua") return;
+    const slidesCount = semuaSlides.length;
+    if (slidesCount <= 1) return;
+    const id = setInterval(() => {
+      setCurrentSlide((s) => (s + 1) % Math.max(1, slidesCount));
+    }, AUTO_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [tab, semuaSlides.length]);
   const totalImages = tab === "semua" ? semuaFlat.length : filtered.length;
 
   
@@ -168,36 +178,36 @@ export default function GalleryGrid() {
           </div>
         </div>
       ) : (
-        <div className="mt-6 grid grid-cols-12 gap-4 md:gap-6">
-          {paged.map((img, i) => (
-            <motion.button
-              key={`${img.src}-${i}`}
-              type="button"
-              className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 group"
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.05 }}
-              onClick={() => onOpen(i)}
-            >
-              <div className="group relative overflow-hidden rounded-xl border bg-card/40 transition hover:border-accent/70 hover:shadow-lg">
-                <Image
-                  src={img.src}
-                  alt={img.alt || "Gambar galeri"}
-                  width={800}
-                  height={600}
-                  className="h-56 w-full object-cover md:h-64 lg:h-72 transition-transform duration-300 group-hover:scale-[1.03]"
-                />
-                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent" />
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
-                    <p className="text-black font-medium">{img.alt}</p>
+          <div className="mt-6 grid grid-cols-12 gap-4 md:gap-6">
+            {paged.map((img, i) => (
+              <motion.button
+                key={`${img.src}-${i}`}
+                type="button"
+                className="col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 group"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.55, ease: "easeOut", delay: i * 0.05 }}
+                onClick={() => onOpen(startIdx + i)}
+              >
+                <div className="group relative overflow-hidden rounded-xl border bg-card/40 transition hover:border-accent/70 hover:shadow-lg">
+                  <Image
+                    src={img.src}
+                    alt={img.alt || "Gambar galeri"}
+                    width={800}
+                    height={600}
+                    className="h-56 w-full object-cover md:h-64 lg:h-72 transition-transform duration-300 group-hover:scale-[1.03]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-white/20 to-transparent" />
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
+                      <p className="text-black font-medium">{img.alt}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.button>
-          ))}
-        </div>
+              </motion.button>
+            ))}
+          </div>
       )}
 
       {tab !== "semua" && totalPages > 1 && (

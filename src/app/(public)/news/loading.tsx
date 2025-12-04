@@ -25,7 +25,7 @@ export default function LoadingNewsList() {
         <div className="grid grid-cols-12 gap-6 md:gap-8">
           <div className="col-span-12 lg:col-span-9">
             <div className="grid grid-cols-12 gap-4 md:gap-6">
-              {Array.from({ length: 9 }).map((_, i) => (
+              {Array.from({ length: 12 }).map((_, i) => (
                 <div key={i} className="col-span-12 sm:col-span-6 md:col-span-4">
                   <Card />
                 </div>

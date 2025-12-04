@@ -46,7 +46,7 @@ export default async function NewsPage({ searchParams }: { searchParams?: Promis
   const sorted = normalized
     .slice()
     .sort((a, b) => (new Date(b.date).getTime() || 0) - (new Date(a.date).getTime() || 0));
-  const size = Math.max(1, Number(sp.pageSize) || 9);
+  const size = Math.max(1, Number(sp.pageSize) || 12);
   const totalCount = sorted.length;
   const totalPages = Math.max(1, Math.ceil(totalCount / size));
   let page = Math.max(1, Number(sp.page) || 1);
